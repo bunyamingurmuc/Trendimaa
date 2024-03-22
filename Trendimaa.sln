@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendeimaa.Entities", "Trendeimaa.Entities\Trendeimaa.Entities.csproj", "{892948BC-7D7F-471B-A0F4-F8830AA2A6F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendimaa.DAL", "Trendimaa.DAL\Trendimaa.DAL.csproj", "{FCB3ED96-4684-4DB3-91DE-D54F5DB732F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendimaa.BLL", "Trendimaa.BLL\Trendimaa.BLL.csproj", "{C3636024-8D0B-48EA-861B-DD6E14305FE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendimaa.DTO", "Trendimaa.DTO\Trendimaa.DTO.csproj", "{EE16F4E7-DB86-4423-A14D-BF43273CF735}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendimaa.Common", "Trendimaa.Common\Trendimaa.Common.csproj", "{836C2FE1-7EB9-4069-966A-B1F112B2A096}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trendimaa.API", "Trendimaa.API\Trendimaa.API.csproj", "{F1085E04-B2B4-4CEE-A9CB-183925DBBDAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{892948BC-7D7F-471B-A0F4-F8830AA2A6F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{892948BC-7D7F-471B-A0F4-F8830AA2A6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{892948BC-7D7F-471B-A0F4-F8830AA2A6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{892948BC-7D7F-471B-A0F4-F8830AA2A6F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB3ED96-4684-4DB3-91DE-D54F5DB732F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB3ED96-4684-4DB3-91DE-D54F5DB732F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB3ED96-4684-4DB3-91DE-D54F5DB732F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB3ED96-4684-4DB3-91DE-D54F5DB732F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3636024-8D0B-48EA-861B-DD6E14305FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3636024-8D0B-48EA-861B-DD6E14305FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3636024-8D0B-48EA-861B-DD6E14305FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3636024-8D0B-48EA-861B-DD6E14305FE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE16F4E7-DB86-4423-A14D-BF43273CF735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE16F4E7-DB86-4423-A14D-BF43273CF735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE16F4E7-DB86-4423-A14D-BF43273CF735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE16F4E7-DB86-4423-A14D-BF43273CF735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{836C2FE1-7EB9-4069-966A-B1F112B2A096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836C2FE1-7EB9-4069-966A-B1F112B2A096}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836C2FE1-7EB9-4069-966A-B1F112B2A096}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836C2FE1-7EB9-4069-966A-B1F112B2A096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1085E04-B2B4-4CEE-A9CB-183925DBBDAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1085E04-B2B4-4CEE-A9CB-183925DBBDAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1085E04-B2B4-4CEE-A9CB-183925DBBDAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1085E04-B2B4-4CEE-A9CB-183925DBBDAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F15005C-787C-4235-9318-7AE943DEC9C8}
+	EndGlobalSection
+EndGlobal
