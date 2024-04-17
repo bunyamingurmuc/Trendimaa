@@ -12,17 +12,21 @@ namespace Trendeimaa.Entities
             Images = new List<Image>();
             Varieties = new List<Variety>();
             Comments = new List<Comment>();
-            QuestionAnswers = new List<QuestionAnswer>();
             CardItems = new List<CardItem>();
             SearchRelateds = new List<SearchRelated>();
             OrderItems = new List<OrderItem>();
-
+            Questions = new List<Question>();
 
         }
         public string Name { get; set; }
         public string Brand { get; set; }
+        public int? StockCode { get; set; }
+        public int StockPiece { get; set; }
+
         public string Detail { get; set; }
-        public int StockPrice { get; set; }
+        public double StockPrice { get; set; }
+        public int? Discount { get; set; } = 0;
+        public int? CashbackAmount { get; set; }= 0;
         public double? FreeShippingLimitPrice { get; set; } = 0;
         public double ShippingPrice { get; set; }
         public string Description { get; set; }
@@ -49,10 +53,10 @@ namespace Trendeimaa.Entities
         public List<Image> Images { get; set; }
         public List<Variety> Varieties { get; set; }
         public List<Comment> Comments { get; set; }
-        public List<QuestionAnswer> QuestionAnswers { get; set; }
         public List<CardItem> CardItems { get; set; }
         public List<SearchRelated> SearchRelateds { get; set; }
         public List<OrderItem> OrderItems{ get; set; }
+        public List<Question> Questions{ get; set; }
 
     }
 }

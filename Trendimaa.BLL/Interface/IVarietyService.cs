@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trendeimaa.Entities;
+﻿using Trendeimaa.Entities;
+using Trendimaa.Common;
 
 namespace Trendimaa.BLL.Interface
 {
     public interface IVarietyService:IService<Variety>
     {
+        Task<IResponse<List<Variety>>> GetProductVarities(int productId);
     }
 }

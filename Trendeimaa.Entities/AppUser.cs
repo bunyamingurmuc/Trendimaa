@@ -8,14 +8,14 @@ namespace Trendeimaa.Entities
         public AppUser()
         {
             Comments = new List<Comment>();
-            QuestionAnswers = new List<QuestionAnswer>();
             Coupons = new List<Coupon>();
             Carts = new List<Card>();
             Addresses = new List<Address>();
             SearchRelateds = new List<SearchRelated>();
             Orders = new List<Order> ();
             Favorites =new List<Favorite> ();
-
+            Favorites =new List<Favorite> ();
+            Questions = new List<Question> ();
         }
 
         public string Name { get; set; }
@@ -23,15 +23,17 @@ namespace Trendeimaa.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string PhoneNumber{ get; set; }
-        public string UserIdentity { get; set; }
+        public string? UserIdentity { get; set; }
+        public int? WalletId { get; set; }
+        public Wallet? Wallet { get; set; }
         public List<Comment>Comments { get; set; }
-        public List<QuestionAnswer> QuestionAnswers { get; set; }
         public List<Coupon> Coupons { get; set; }
         public List<Card> Carts { get; set; }
         public List<Address> Addresses { get; set; }
         public List<SearchRelated> SearchRelateds { get; set; }
         public List<Order> Orders{ get; set; }
         public List<Favorite> Favorites{ get; set; }
+        public List<Question> Questions{ get; set; }
 
     }
 }

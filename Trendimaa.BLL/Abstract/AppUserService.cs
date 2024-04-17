@@ -54,8 +54,8 @@ namespace Trendimaa.BLL.Abstract
             appUser.UserIdentity = "TRD"+rnd.Next(000000000, 99999999).ToString();
 
             var data = await _uow.GetRepository<AppUser>().CreateAsync(appUser);
-            string jsonText = File.ReadAllText("dosya_yolu.json");
-            dynamic datas = JsonConvert.DeserializeObject(jsonText);
+            //string jsonText = File.ReadAllText("dosya_yolu.json");
+            //dynamic datas = JsonConvert.DeserializeObject(jsonText);
 
 
             return new Response<AppUser>(ResponseType.Success, data);

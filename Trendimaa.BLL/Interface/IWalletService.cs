@@ -2,7 +2,7 @@
 
 namespace Trendimaa.BLL.Interface
 {
-    public interface IQuestionAnswerService:IService<QuestionAnswer>
+    public interface IWalletService:IService<Wallet>
     {
     }
 }

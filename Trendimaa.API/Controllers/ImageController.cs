@@ -15,7 +15,7 @@ namespace Trendimaa.API.Controllers
         public ImageController(IImageService service, IWebHostEnvironment environment)
         {
             _service = service;
-            _environment= environment;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -58,10 +58,18 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
+        }  
+        [HttpDelete]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> DeleteAll()
+        {
+
+              _service.DeleteAll();
+            return Ok();
         }
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> ImageUpload([FromForm] CImageUploadDto objFile, int? productId)
+        public async Task<ActionResult> ImageUpload([FromForm] CImageUploadDto objFile, int? productId, int? sellerId, int? campaignId)
         {
 
             if (objFile.File.Length > 0)
@@ -79,14 +87,41 @@ namespace Trendimaa.API.Controllers
                     objFile.File.CopyTo(fileStream);
                     fileStream.Flush();
                 }
-
-                var image = new Image()
+                var image = new Image();
+                if (productId != null)
                 {
-                    Path = "http://localhost:5178/images/" + imageName,
-                    ProductId = productId,
 
-                };
-                var response = await _service.CreateAsync(image);
+                     image = new Image()
+                    {
+                         //Path = "http://localhost:5178/images/" + imageName,
+                         Path = "http://trendimaa.com/images/" + imageName,
+                         ProductId = productId,
+
+                    };
+                }
+                if (campaignId != null)
+                {
+
+                    image = new Image()
+                    {
+                        //Path = "http://localhost:5178/images/" + imageName,
+                        Path = "http://trendimaa.com/images/" + imageName,
+                        CampaignId = productId,
+
+                    };
+                }
+                if (sellerId!=null)
+                {
+                     image = new Image()
+                    {
+                        //Path = "http://localhost:5178/images/" + imageName,
+                        Path = "http://trendimaa.com/images/" + imageName,
+                        SellerId = sellerId,
+
+                    };
+                }
+                var response = 
+                    await _service.CreateAsync(image);
                 return this.ResponseStatusWithData(response);
 
 

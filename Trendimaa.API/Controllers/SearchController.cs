@@ -11,10 +11,14 @@ namespace Trendimaa.API.Controllers
     public class SearchController : ControllerBase
     {
         public readonly IProductService _service;
+        public readonly IVarietyService _varietyService;
+        public readonly ISpecificationService _specificationService;
 
-        public SearchController(IProductService service)
+        public SearchController(IProductService service, IVarietyService varietyService, ISpecificationService specificationService)
         {
             _service = service;
+            _varietyService = varietyService;
+            _specificationService = specificationService;
         }
         [HttpGet]
         [Route("/[controller]/[action]")]
@@ -79,8 +83,17 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.ChangeSearchProductResult(dto);
             return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSpecificationsForSearch(int? subcatid, int? subsubcatid)
+        {
+
+            var response = await _specificationService.GetSpecificationsForSearch(subcatid, subsubcatid);
+            return this.ResponseStatusWithData(response);
+
         }
 
-        
+
     }
 }

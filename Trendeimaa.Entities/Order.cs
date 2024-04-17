@@ -5,6 +5,10 @@ namespace Trendeimaa.Entities
 {
     public class Order:BaseEntity
     {
+        public Order()
+        {
+            WalletItems = new List<WalletItem>();
+        }
         public string? OrderNumber { get; set; }
         public string? OrderImage { get; set; }
         public string? SellerName { get; set; }
@@ -28,6 +32,7 @@ namespace Trendeimaa.Entities
         public int? CouponId { get; set; }
         public Coupon? Coupon { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+        public List<WalletItem> WalletItems { get; set; }
 
     }
 }

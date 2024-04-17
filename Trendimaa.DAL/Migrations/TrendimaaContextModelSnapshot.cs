@@ -65,6 +65,39 @@ namespace Trendimaa.DAL.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("Trendeimaa.Entities.Answer", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.AppUser", b =>
                 {
                     b.Property<int?>("Id")
@@ -97,8 +130,10 @@ namespace Trendimaa.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserIdentity")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("WalletId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -113,34 +148,44 @@ namespace Trendimaa.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
+                    b.Property<int>("BannerSection")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BoldLowerTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Detail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsHome")
+                    b.Property<bool>("IsForMobile")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsMainHomeCarousel")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsMainHomeSpace")
+                    b.Property<bool?>("IsHome")
                         .HasColumnType("bit");
 
                     b.Property<int>("Language")
                         .HasColumnType("int");
 
+                    b.Property<string>("LowerTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpperTitle")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -221,6 +266,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -244,6 +292,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -265,6 +316,9 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -298,11 +352,25 @@ namespace Trendimaa.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DisLikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LikeCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
+
+                    b.Property<string>("SurnameLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -380,6 +448,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("CampaignId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
@@ -402,9 +473,15 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("CampaignId");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("CommentId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SellerId")
+                        .IsUnique()
+                        .HasFilter("[SellerId] IS NOT NULL");
 
                     b.ToTable("Images");
                 });
@@ -586,6 +663,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("CampaignId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CashbackAmount")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
@@ -602,6 +682,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<string>("Detail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<double?>("FreeShippingLimitPrice")
                         .HasColumnType("float");
@@ -631,8 +714,14 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<double>("ShippingPrice")
                         .HasColumnType("float");
 
-                    b.Property<int>("StockPrice")
+                    b.Property<int?>("StockCode")
                         .HasColumnType("int");
+
+                    b.Property<int>("StockPiece")
+                        .HasColumnType("int");
+
+                    b.Property<double>("StockPrice")
+                        .HasColumnType("float");
 
                     b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
@@ -655,13 +744,16 @@ namespace Trendimaa.DAL.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Trendeimaa.Entities.QuestionAnswer", b =>
+            modelBuilder.Entity("Trendeimaa.Entities.Question", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AnswerId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
@@ -676,18 +768,17 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SellerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AnswerId")
+                        .IsUnique()
+                        .HasFilter("[AnswerId] IS NOT NULL");
 
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("SellerId");
-
-                    b.ToTable("QuestionAnswers");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Related.FavoriteProduct", b =>
@@ -771,6 +862,10 @@ namespace Trendimaa.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CompanyFullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -785,6 +880,10 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 
+                    b.Property<string>("EMail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IBAN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -792,12 +891,11 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("ImageId")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Language")
                         .HasColumnType("int");
-
-                    b.Property<string>("Mail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -810,15 +908,14 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int>("TaxIdentificationNumber")
                         .HasColumnType("int");
 
+                    b.Property<double?>("rate")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
                         .IsUnique()
                         .HasFilter("[AddressId] IS NOT NULL");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique()
-                        .HasFilter("[ImageId] IS NOT NULL");
 
                     b.ToTable("Sellers");
                 });
@@ -841,11 +938,19 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<bool?>("IsDefault")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsRequired")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Key")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Language")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SubSubCategoryId")
@@ -858,6 +963,8 @@ namespace Trendimaa.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.HasIndex("SubSubCategoryId");
 
@@ -879,6 +986,12 @@ namespace Trendimaa.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -889,6 +1002,12 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SubCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubSubCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("VarietyName")
                         .HasColumnType("int");
 
@@ -896,7 +1015,69 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
+                    b.HasIndex("SubCategoryId");
+
+                    b.HasIndex("SubSubCategoryId");
+
                     b.ToTable("Varieties");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.Wallet", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.ToTable("Wallets");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.WalletItem", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPlus")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WalletId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("WalletItemAmount")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletItems");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Address", b =>
@@ -907,6 +1088,22 @@ namespace Trendimaa.DAL.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.Answer", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithMany("Answers")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Card", b =>
@@ -1007,6 +1204,11 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("CampaignId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.Category", "Category")
+                        .WithMany("Images")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Trendeimaa.Entities.Comment", "Comment")
                         .WithMany("Images")
                         .HasForeignKey("CommentId")
@@ -1017,11 +1219,20 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithOne("Image")
+                        .HasForeignKey("Trendeimaa.Entities.Image", "SellerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Campaign");
+
+                    b.Navigation("Category");
 
                     b.Navigation("Comment");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Notification", b =>
@@ -1110,28 +1321,28 @@ namespace Trendimaa.DAL.Migrations
                     b.Navigation("SubSubCategory");
                 });
 
-            modelBuilder.Entity("Trendeimaa.Entities.QuestionAnswer", b =>
+            modelBuilder.Entity("Trendeimaa.Entities.Question", b =>
                 {
+                    b.HasOne("Trendeimaa.Entities.Answer", "Answer")
+                        .WithOne("Question")
+                        .HasForeignKey("Trendeimaa.Entities.Question", "AnswerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
-                        .WithMany("QuestionAnswers")
+                        .WithMany("Questions")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Trendeimaa.Entities.Product", "Product")
-                        .WithMany("QuestionAnswers")
+                        .WithMany("Questions")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
-                        .WithMany("QuestionAnswers")
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.Navigation("Answer");
 
                     b.Navigation("AppUser");
 
                     b.Navigation("Product");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Related.FavoriteProduct", b =>
@@ -1198,14 +1409,7 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("Trendeimaa.Entities.Seller", "AddressId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Trendeimaa.Entities.Image", "Image")
-                        .WithOne("Seller")
-                        .HasForeignKey("Trendeimaa.Entities.Seller", "ImageId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Address");
-
-                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Specification", b =>
@@ -1215,12 +1419,19 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.CategoryFolder.SubCategory", "SubCategory")
+                        .WithMany("Specifications")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Trendeimaa.Entities.CategoryFolder.SubSubCategory", "SubSubCategory")
                         .WithMany("Specifications")
                         .HasForeignKey("SubSubCategoryId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Product");
+
+                    b.Navigation("SubCategory");
 
                     b.Navigation("SubSubCategory");
                 });
@@ -1232,12 +1443,58 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.CategoryFolder.SubCategory", "SubCategory")
+                        .WithMany("Varieties")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Trendeimaa.Entities.CategoryFolder.SubSubCategory", "SubSubCategory")
+                        .WithMany("Varieties")
+                        .HasForeignKey("SubSubCategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Product");
+
+                    b.Navigation("SubCategory");
+
+                    b.Navigation("SubSubCategory");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.Wallet", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
+                        .WithOne("Wallet")
+                        .HasForeignKey("Trendeimaa.Entities.Wallet", "AppUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.WalletItem", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.Order", "Order")
+                        .WithMany("WalletItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Trendeimaa.Entities.Wallet", "Wallet")
+                        .WithMany("WalletItems")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Address", b =>
                 {
                     b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.Answer", b =>
+                {
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.AppUser", b =>
@@ -1254,9 +1511,11 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("QuestionAnswers");
+                    b.Navigation("Questions");
 
                     b.Navigation("SearchRelateds");
+
+                    b.Navigation("Wallet");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Campaign", b =>
@@ -1273,6 +1532,8 @@ namespace Trendimaa.DAL.Migrations
 
             modelBuilder.Entity("Trendeimaa.Entities.Category", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("Products");
 
                     b.Navigation("SearchRelateds");
@@ -1286,7 +1547,11 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("SearchRelateds");
 
+                    b.Navigation("Specifications");
+
                     b.Navigation("SubSubCategories");
+
+                    b.Navigation("Varieties");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.CategoryFolder.SubSubCategory", b =>
@@ -1296,6 +1561,8 @@ namespace Trendimaa.DAL.Migrations
                     b.Navigation("SearchRelateds");
 
                     b.Navigation("Specifications");
+
+                    b.Navigation("Varieties");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Comment", b =>
@@ -1316,13 +1583,13 @@ namespace Trendimaa.DAL.Migrations
             modelBuilder.Entity("Trendeimaa.Entities.Image", b =>
                 {
                     b.Navigation("Notification");
-
-                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("WalletItems");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Product", b =>
@@ -1335,7 +1602,7 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("OrderItems");
 
-                    b.Navigation("QuestionAnswers");
+                    b.Navigation("Questions");
 
                     b.Navigation("SearchRelateds");
 
@@ -1346,13 +1613,20 @@ namespace Trendimaa.DAL.Migrations
 
             modelBuilder.Entity("Trendeimaa.Entities.Seller", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("Coupons");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Orders");
 
                     b.Navigation("Products");
+                });
 
-                    b.Navigation("QuestionAnswers");
+            modelBuilder.Entity("Trendeimaa.Entities.Wallet", b =>
+                {
+                    b.Navigation("WalletItems");
                 });
 #pragma warning restore 612, 618
         }

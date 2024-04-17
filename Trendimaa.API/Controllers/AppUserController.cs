@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.DTO;
 
 namespace Trendimaa.API.Controllers
 {
@@ -59,6 +62,23 @@ namespace Trendimaa.API.Controllers
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
         }
+
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> Login(CLoginDto dto)
+        {
+            var response = await _service.Login(dto);
+            return this.ResponseStatusWithData(response);
+        }
+
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> SignUp(AppUser appUser)
+        {
+            var response = await _service.SignUp(appUser);
+            return this.ResponseStatusWithData(response);
+        }
+
 
     }
 }

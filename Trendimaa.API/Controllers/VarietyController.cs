@@ -58,5 +58,13 @@ namespace Trendimaa.API.Controllers
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
         }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetProductVarities(int productId)
+        {
+
+            var response = await _service.GetProductVarities(productId);
+            return this.ResponseStatusWithData(response);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
@@ -8,14 +7,15 @@ namespace Trendimaa.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionAnswerController : ControllerBase
+    public class WalletItemController : ControllerBase
     {
-        public readonly IQuestionAnswerService _service;
+        public readonly IWalletItemService _service;
 
-        public QuestionAnswerController(IQuestionAnswerService service)
+        public WalletItemController(IWalletItemService service)
         {
             _service = service;
         }
+
         [HttpGet]
         [Route("/[controller]/[action]")]
         public async Task<ActionResult> GetAllAsy()
@@ -34,7 +34,7 @@ namespace Trendimaa.API.Controllers
 
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> CreateAsy(QuestionAnswer entity)
+        public async Task<ActionResult> CreateAsy(WalletItem entity)
         {
             var response = await _service.CreateAsync(entity);
             return this.ResponseStatusWithData(response);
@@ -43,7 +43,7 @@ namespace Trendimaa.API.Controllers
 
         [HttpPut]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> UpdateAsy(QuestionAnswer entity)
+        public async Task<ActionResult> UpdateAsy(WalletItem entity)
         {
             var response = await _service.UpdateAsync(entity);
             return this.ResponseStatusWithData(response);

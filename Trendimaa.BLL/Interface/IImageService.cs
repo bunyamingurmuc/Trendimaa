@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Trendeimaa.Entities;
+﻿using Trendeimaa.Entities;
 
 namespace Trendimaa.BLL.Interface
 {
     public interface IImageService:IService<Image>
     {
+        public void DeleteAll();
     }
 }

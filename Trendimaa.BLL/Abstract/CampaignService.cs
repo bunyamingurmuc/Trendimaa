@@ -29,8 +29,9 @@ namespace Trendimaa.BLL.Abstract
         public async Task<IResponse<List<MainHomeCampaignDTO>>> GetMainHomeCampaigns(Language language)
         {
             var campanies=await _context.Campaigns
-                   .Where(i => i.IsMainHomeCarousel == true && i.ExpireDate >= DateTime.Now)
+                   .Where(i => i.IsHome == true && i.ExpireDate >= DateTime.Now)
                    .Where(i=>i.Language==language)
+                   .Include(i=>i.Images)
                    .ToListAsync();
                 var mapped=_mapper.Map<List<MainHomeCampaignDTO>>(campanies);
             return new Response<List<MainHomeCampaignDTO>>(ResponseType.Success,mapped);

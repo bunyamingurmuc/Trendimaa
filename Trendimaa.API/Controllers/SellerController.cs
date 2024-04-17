@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.DTO;
 
 namespace Trendimaa.API.Controllers
 {
@@ -35,9 +36,17 @@ namespace Trendimaa.API.Controllers
 
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> CreateAsy(Seller entity)
+        public async Task<ActionResult> SignUp(Seller entity)
         {
-            var response = await _service.CreateAsync(entity);
+            var response = await _service.SignUp(entity);
+            return this.ResponseStatusWithData(response);
+
+        }
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> LogIn(CSellerLoginDto dto)
+        {
+            var response = await _service.LogIn(dto);
             return this.ResponseStatusWithData(response);
 
         }
@@ -56,6 +65,14 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> up()
+        {
+
+            var response = await _service.up();
             return this.ResponseStatusWithData(response);
         }
     }

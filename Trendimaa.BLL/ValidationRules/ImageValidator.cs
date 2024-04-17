@@ -3,9 +3,9 @@ using Trendeimaa.Entities;
 
 namespace Trendimaa.BLL.ValidationRules
 {
-    public class ImageValidatorAppUserValidator : AbstractValidator<Image>
+    public class ImageValidator : AbstractValidator<Image>
     {
-     public ImageValidatorAppUserValidator() { }
+     public ImageValidator() { }
     }
     
 }

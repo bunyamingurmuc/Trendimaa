@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.OpenApi.Models;
 using Trendimaa.BLL.DependencyResolvers;
 using Trendimaa.BLL.Helper;
 
@@ -23,37 +22,6 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSwaggerGen(s =>
-    s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Insert JWT Token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "bearer"
-    })
-);
-builder.Services.AddSwaggerGen(w =>
-{
-    w.AddSecurityRequirement(
-        new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] { }
-            }
-        });
-});
-
-
 builder.Services.AddDependencies(builder.Configuration);
 var profiles = ProfileHelper.GetProfiles();
 var mapperConfiguration = new MapperConfiguration(opt =>
@@ -64,11 +32,6 @@ var mapper = mapperConfiguration.CreateMapper();
 builder.Services.AddSingleton(mapper);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-});
 
 var app = builder.Build();
 

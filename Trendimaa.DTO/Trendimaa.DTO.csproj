@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Excel\" />
+    <Folder Include="ProductDetail\" />
   </ItemGroup>
 
 </Project>

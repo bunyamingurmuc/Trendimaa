@@ -4,6 +4,7 @@ using Trendeimaa.Entities;
 using Trendeimaa.Entities.CategoryFolder;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.Common.Enum;
 
 namespace Trendimaa.API.Controllers
 {
@@ -57,6 +58,21 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
+            return this.ResponseStatusWithData(response);
+        } 
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> CreateRangeAsync(List<SubCategory> subCategories)
+        {
+
+            var response = await _service.CreateRangeAsync(subCategories);
+            return this.ResponseStatusWithData(response);
+        }  [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSubCategories(Language language)
+        {
+
+            var response = await _service.GetSubCategories(language);
             return this.ResponseStatusWithData(response);
         }
     }

@@ -20,7 +20,8 @@ namespace Trendimaa.DAL.Context
         public DbSet<SubSubCategory>? SubSubCategories{ get; set; }
         public DbSet<Seller>? Sellers{ get; set; }
         public DbSet<Comment>? Comments{ get; set; }
-        public DbSet<QuestionAnswer>? QuestionAnswers{ get; set; }
+        public DbSet<Question>? Questions{ get; set; }
+        public DbSet<Answer>? Answers{ get; set; }
         public DbSet<Campaign>? Campaigns{ get; set; }
         public DbSet<Coupon>? Coupons{ get; set; }
         public DbSet<Card>? Cards { get; set; }
@@ -28,6 +29,8 @@ namespace Trendimaa.DAL.Context
         public DbSet<SearchRelated>? SearchRelateds { get; set; }
         public DbSet<Notification>? Notifications{ get; set; }
         public DbSet<Favorite>? Favorites{ get; set; }
+        public DbSet<Wallet>? Wallets{ get; set; }
+        public DbSet<WalletItem>? WalletItems { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

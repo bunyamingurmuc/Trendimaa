@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
+using Trendeimaa.Entities.CategoryFolder;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.Common.Enum;
 
 namespace Trendimaa.API.Controllers
 {
@@ -57,6 +59,14 @@ namespace Trendimaa.API.Controllers
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
         } 
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> CreateRangeAsync(List<Product> products)
+        {
+
+            var response = await _service.CreateRangeAsync(products);
+            return this.ResponseStatusWithData(response);
+        }
         [HttpGet]
         [Route("/[controller]/[action]")]
         public async Task<ActionResult> CompareProducts(List<int> productIds)
@@ -65,6 +75,54 @@ namespace Trendimaa.API.Controllers
             var response = await _service.CompareProducts(productIds);
             return this.ResponseStatusWithData(response);
         }
-        
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetProductDetail(int productId)
+        {
+
+            var response = await _service.GetProductDetail(productId);
+            return this.ResponseStatusWithData(response);
+        }
+
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerProductListsWithCount(int sellerId, int page, int quantity, string? word, int? catId, int? subCatId, int? subSubCatId)
+        {
+
+            var response = await _service.GetSellerProductListsWithCount(sellerId,page,quantity,word,catId,subCatId,subSubCatId);
+            return this.ResponseStatusWithData(response);
+        }  
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSameProducts(int productId)
+        {
+
+            var response = await _service.GetSameProducts(productId);
+            return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetCategoriesProducts(int? cateid, int? subcateid, int? subsubcateid)
+        {
+
+            var response = await _service.GetCategoriesProduducts(cateid,subcateid,subsubcateid);
+            return this.ResponseStatusWithData(response);
+        }
+        //[HttpGet]
+        //[Route("/[controller]/[action]")]
+        //public async Task<ActionResult> CompareProducts(int? subcategoryId, int? subSubcategoryId, Language language)
+        //{
+        //   byte[] excelData= await _service.GenerateExcel(subcategoryId, subSubcategoryId, language);
+        //    if (excelData!=null)
+        //    {
+        //        return File(excelData, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Product_Template.xlsx");
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+
+        //}
+
     }
 }

@@ -7,6 +7,8 @@ namespace Trendeimaa.Entities
         public string? Path { get; set; }
         public Product? Product { get; set; }
         public int? ProductId { get; set; } 
+        public Category? Category { get; set; }
+        public int? CategoryId { get; set; } 
         public Seller? Seller{ get; set; }
         public int? SellerId { get; set; } 
         public Comment? Comment { get; set; }

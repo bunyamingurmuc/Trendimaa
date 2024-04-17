@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.Common.Enum;
 
 namespace Trendimaa.API.Controllers
 {
@@ -56,6 +57,29 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
+        }
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> CreateRangeAsync(List<Category> categories)
+        {
+
+            var response = await _service.CreateRangeAsync(categories);
+            return Ok(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetMainHomeCategories(Language language)
+        {
+
+            var response = await _service.GetMainHomeCategories(language);
+            return Ok(response);
+        } [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetCategories(Language language)
+        {
+
+            var response = await _service.GetCategories(language);
+            return Ok(response);
         }
     }
 }

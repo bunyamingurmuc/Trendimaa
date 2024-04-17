@@ -90,5 +90,23 @@ namespace Trendimaa.BLL.Helper
                      .ToLower();
             return replaced;
         }
+        public static void OneCharacterReplaceVoid(string character)
+        {
+            var replaced = character
+                     .Replace(",", "")
+                     .Replace(" ", "")
+                     .Replace("ş", "s")
+                     .Replace("ö", "o")
+                     .Replace("ğ", "g")
+                     .Replace("ı", "i")
+                     .Replace("I", "i")
+                     .Replace("(", "")
+                     .Replace(")", "")
+                     .Replace("ç", "c")
+                     .Replace("ü", "u")
+                     .Trim()
+                     .ToLower();
+           
+        }
     }
 }
