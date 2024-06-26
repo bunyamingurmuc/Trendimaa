@@ -6,6 +6,7 @@
         SV,
         FI,
         NO,
-        AR
+        AR,
+        DA
     }
 }

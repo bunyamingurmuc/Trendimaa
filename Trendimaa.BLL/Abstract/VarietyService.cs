@@ -6,6 +6,7 @@ using Trendimaa.BLL.Interface;
 using Trendimaa.Common;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
+using Trendimaa.DTO;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -27,6 +28,17 @@ namespace Trendimaa.BLL.Abstract
         {
             var list=await _context.Varieties.Where(i=>i.ProductId==productId).ToListAsync();
             return new Response<List<Variety>>(ResponseType.Success,list);
+        }
+
+        public async Task<IResponse<List<BasicVarietyDTO>>> GetSellerVarieties(int? subCategoryid, int? subSubCategoryid)
+        {
+            var specs = new List<Variety>();
+            if (subCategoryid != null)
+                specs = await _context.Varieties.Where(i => i.SubCategoryId == subCategoryid).ToListAsync();
+            if (subSubCategoryid != null)
+                specs = await _context.Varieties.Where(i => i.SubSubCategoryId == subSubCategoryid).ToListAsync();
+            var mapped = _mapper.Map<List<BasicVarietyDTO>>(specs);
+            return new Response<List<BasicVarietyDTO>>(ResponseType.Success, mapped);
         }
     }
 }

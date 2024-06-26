@@ -19,10 +19,12 @@ namespace Trendimaa.API.Controllers
 
         [HttpGet]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> GetAllAsy()
+        public async Task<ActionResult> GetAllAsy() 
         {
             var response = await _service.GetAllAsync();
+
             return this.ResponseStatusWithData(response);
+
         }
 
         [HttpGet]
@@ -56,6 +58,14 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
+            return this.ResponseStatusWithData(response);
+        }
+
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GeyUserWallet(int userId)
+        {
+            var response = await _service.GeyUserWallet(userId);
             return this.ResponseStatusWithData(response);
         }
     }

@@ -25,9 +25,11 @@ namespace Trendimaa.BLL.Abstract
             _uow = uow;
         }
 
-        public async Task<IResponse<List<CategoryHomeDTO>>> GetSubSubCategories(Language language)
+        public async Task<IResponse<List<CategoryHomeDTO>>> GetSubSubCategories(Language language, int subCatId)
         {
-            var cats = await _context.SubSubCategories.ToListAsync();
+            var cats = await _context.SubSubCategories
+                .Where(i=>i.SubCategoryId==subCatId)
+                .ToListAsync();
             var mapped = _mapper.Map<List<CategoryHomeDTO>>(cats);
             return new Common.Response<List<CategoryHomeDTO>>(ResponseType.Success, mapped);
         }

@@ -20,13 +20,13 @@ namespace Trendeimaa.Entities
         }
         public string Name { get; set; }
         public string Brand { get; set; }
-        public int? StockCode { get; set; }
+        public string? StockCode { get; set; }
         public int StockPiece { get; set; }
 
         public string Detail { get; set; }
         public double StockPrice { get; set; }
         public int? Discount { get; set; } = 0;
-        public int? CashbackAmount { get; set; }= 0;
+        public double? CashbackAmount { get; set; }= 0;
         public double? FreeShippingLimitPrice { get; set; } = 0;
         public double ShippingPrice { get; set; }
         public string Description { get; set; }
@@ -37,6 +37,7 @@ namespace Trendeimaa.Entities
 
         public Language Language { get; set; }
         public Currency Currency { get; set; }
+        public ConfirmStatus? ConfirmStatus { get; set; }
 
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }

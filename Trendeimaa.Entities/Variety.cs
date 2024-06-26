@@ -12,14 +12,12 @@ namespace Trendeimaa.Entities
         public Language Language{ get; set; }
         public bool IsDefault{ get; set; }
         public bool IsRequired{ get; set; }
-
-      
         public Product? Product { get; set; }
         public int? ProductId { get; set; }
         public int? SubSubCategoryId { get; set; }
-        public SubCategory SubCategory { get; set; }
+        public SubCategory? SubCategory { get; set; }
         public int? SubCategoryId { get; set; }
-        public SubSubCategory SubSubCategory { get; set; }
+        public SubSubCategory? SubSubCategory { get; set; }
 
 
     }

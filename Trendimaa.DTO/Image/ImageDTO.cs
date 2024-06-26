@@ -1,8 +1,9 @@
 ﻿using Trendeimaa.Entities;
+using Trendeimaa.Entities.Interface;
 
 namespace Trendimaa.DTO
 {
-    public class ImageDTO
+    public class ImageDTO:BaseEntity
     {
         public string? Path { get; set; }
         public int? ProductId { get; set; }

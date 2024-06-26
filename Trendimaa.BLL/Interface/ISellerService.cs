@@ -2,6 +2,7 @@
 using Trendeimaa.Entities;
 using Trendimaa.Common;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Seller;
 
 namespace Trendimaa.BLL.Interface
 {
@@ -10,6 +11,7 @@ namespace Trendimaa.BLL.Interface
         Task<IResponse<Seller>> SignUp(Seller seller);
         
         Task<IResponse<JwtTokenResponse>> LogIn(CSellerLoginDto dto);
+        Task<IResponse<SellerMainHomeDataDTO>> GetSellerMainHomeData(int sellerId);
         Task<IResponse> up();
     }
 }

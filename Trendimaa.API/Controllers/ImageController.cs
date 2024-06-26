@@ -2,6 +2,7 @@
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.Common.Enum;
 using Trendimaa.DTO;
 
 namespace Trendimaa.API.Controllers
@@ -69,7 +70,7 @@ namespace Trendimaa.API.Controllers
         }
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> ImageUpload([FromForm] CImageUploadDto objFile, int? productId, int? sellerId, int? campaignId)
+        public async Task<ActionResult> ImageUpload([FromForm] CImageUploadDto objFile, int? productId, int? sellerId, int? campaignId, int? categoryId, BannerSection? bannerSection)
         {
 
             if (objFile.File.Length > 0)
@@ -98,6 +99,17 @@ namespace Trendimaa.API.Controllers
                          ProductId = productId,
 
                     };
+                } 
+                if (categoryId != null)
+                {
+
+                     image = new Image()
+                    {
+                         //Path = "http://localhost:5178/images/" + imageName,
+                         Path = "http://trendimaa.com/images/" + imageName,
+                         CategoryId = categoryId,
+                         
+                    };
                 }
                 if (campaignId != null)
                 {
@@ -106,7 +118,8 @@ namespace Trendimaa.API.Controllers
                     {
                         //Path = "http://localhost:5178/images/" + imageName,
                         Path = "http://trendimaa.com/images/" + imageName,
-                        CampaignId = productId,
+                        
+                        CampaignId = campaignId,
 
                     };
                 }

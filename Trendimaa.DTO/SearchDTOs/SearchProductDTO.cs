@@ -5,8 +5,12 @@ namespace Trendimaa.DTO.SearchDTOs
 {
     public class SearchProductDTO:BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public string Detail { get; set; }
+        public double Rate { get; set; }
+        public int StockPrice { get; set; }
+        public int? Discount { get; set; }
+        public int? CashbackAmount { get; set; }
 
         public int? CategoryId { get; set; }
         public SearchCategoryDTO? Category { get; set; }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Trendeimaa.Entities.Interface;
 
 namespace Trendimaa.DTO.WalletDTOs
 {
-    internal class WalletDTO
+    public class WalletDTO:BaseEntity
     {
+        public double Amount { get; set; }
+        public int? AppUserId { get; set; }
+        public List<WalletItemDTO> WalletItems { get; set; }
     }
 }

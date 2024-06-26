@@ -58,5 +58,13 @@ namespace Trendimaa.API.Controllers
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
         }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetUserCard(int appuserId)
+        {
+
+            var response = await _service.GetUserCard(appuserId);
+            return this.ResponseStatusWithData(response);
+        }
     }
 }

@@ -73,6 +73,30 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.GetProductQuestions(productId);
             return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerQuestions(int? sellerId)
+        {
+
+            var response = await _service.GetSellerQuestions(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+         [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerNonAnsweredQuestions(int? sellerId)
+        {
+
+            var response = await _service.GetSellerNonAnsweredQuestions(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerAnsweredQuestions(int? sellerId)
+        {
+
+            var response = await _service.GetSellerAnsweredQuestions(sellerId);
+            return this.ResponseStatusWithData(response);
         }
     }
 }

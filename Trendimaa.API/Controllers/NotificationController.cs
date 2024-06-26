@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FirebaseAdmin.Messaging;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Notification = Trendeimaa.Entities.Notification;
 
 namespace Trendimaa.API.Controllers
 {
@@ -57,6 +59,33 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.RemoveAsync(id);
             return this.ResponseStatusWithData(response);
+        }   
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<BatchResponse> SendNotificationTestSeller(int sellerId, string title, string body)
+        {
+
+            var response = await _service.SendNotificationTestSeller(sellerId,title,body);
+            return response;
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetUserNotification(int appuserId)
+        {
+
+            var response = await _service.GetUserNotification(appuserId);
+            return this.ResponseStatusWithData(response);
+
         }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerNotification(int sellerId)
+        {
+
+            var response = await _service.GetSellerNotification(sellerId);
+            return this.ResponseStatusWithData(response);
+
+        }
+
     }
 }

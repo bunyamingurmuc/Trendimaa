@@ -66,5 +66,5 @@ namespace Trendimaa.API.Controllers
             var response = await _service.CreateRangeAsync(list);
             return this.ResponseStatusWithData(response);
         }
-    }
+    }   
 }

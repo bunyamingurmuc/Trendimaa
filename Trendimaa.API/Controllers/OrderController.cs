@@ -2,6 +2,7 @@
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.Common.Enum;
 
 namespace Trendimaa.API.Controllers
 {
@@ -34,9 +35,9 @@ namespace Trendimaa.API.Controllers
 
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> CreateAsy(Order entity)
+        public async Task<ActionResult> CreateOrder(Order order, int? couponOfferId)
         {
-            var response = await _service.CreateAsync(entity);
+            var response = await _service.CreateOrder(order,couponOfferId);
             return this.ResponseStatusWithData(response);
 
         }
@@ -55,6 +56,22 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
+            return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerOrders(int sellerId, OrderStatus orderStatus)
+        {
+
+            var response = await _service.GetSellerOrders(sellerId,orderStatus);
+            return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetUserOrders(int userId)
+        {
+
+            var response = await _service.GetUserOrders(userId);
             return this.ResponseStatusWithData(response);
         }
     }

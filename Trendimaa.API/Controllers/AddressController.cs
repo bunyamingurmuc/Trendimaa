@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
@@ -56,6 +55,13 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetUserAddresses(int id)
+        {
+            var response = await _service.GetUserAddresses(id);
             return this.ResponseStatusWithData(response);
         }
     }

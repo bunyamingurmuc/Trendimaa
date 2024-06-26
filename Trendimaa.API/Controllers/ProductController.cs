@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
-using Trendeimaa.Entities.CategoryFolder;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
-using Trendimaa.Common.Enum;
 
 namespace Trendimaa.API.Controllers
 {
@@ -108,6 +106,65 @@ namespace Trendimaa.API.Controllers
             var response = await _service.GetCategoriesProduducts(cateid,subcateid,subsubcateid);
             return this.ResponseStatusWithData(response);
         }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetOtherProductSellers(int? productId)
+        {
+
+            var response = await _service.GetOtherProductSellers(productId);
+            return this.ResponseStatusWithData(response);
+        }
+         [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerStockProducts(int? sellerId)
+        {
+
+            var response = await _service.GetSellerStockProducts(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+         [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerNotStockProducts(int? sellerId)
+        {
+
+            var response = await _service.GetSellerNotStockProducts(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+
+          [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerNotConfirmedProducts(int? sellerId)
+        {
+
+            var response = await _service.GetSellerNotConfirmedProducts(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+           [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetProductWithBarcode(string StockCode)
+        {
+
+            var response = await _service.GetProductWithBarcode(StockCode);
+            return this.ResponseStatusWithData(response);
+        }   
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> ApplyDiscount(List<int> productIds, int percent, double price)
+        {
+
+           await _service.ApplyDiscount(productIds,percent,price);
+            return Ok();
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> Free()
+        {
+
+           await _service.Free();
+            return Ok();
+        }
+
+
         //[HttpGet]
         //[Route("/[controller]/[action]")]
         //public async Task<ActionResult> CompareProducts(int? subcategoryId, int? subSubcategoryId, Language language)

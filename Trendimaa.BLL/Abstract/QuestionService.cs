@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.IO.Compression;
 using Trendeimaa.Entities;
 using Trendimaa.BLL.Interface;
 using Trendimaa.Common;
@@ -32,6 +33,36 @@ namespace Trendimaa.BLL.Abstract
             return new Response<List<QuestionDTO>>(ResponseType.Success, mapped);
         }
 
-       
+        public async Task<IResponse<List<QuestionDTO>>> GetSellerAnsweredQuestions(int? sellerId)
+        {
+            var questions = await _context.Questions.Where(i => i.Product.SellerId == sellerId)
+                .Include(i => i.Answer)
+                .Include(i => i.Product)
+                .Where(i=>i.Answer!=null)
+                .ToListAsync();
+            var mapped = _mapper.Map<List<QuestionDTO>>(questions);
+            return new Response<List<QuestionDTO>>(ResponseType.Success, mapped);
+        }
+
+        public async Task<IResponse<List<QuestionDTO>>> GetSellerNonAnsweredQuestions(int? sellerId)
+        {
+            var questions = await _context.Questions.Where(i => i.Product.SellerId == sellerId)
+                .Include(i => i.Answer)
+                .Include(i => i.Product)
+                .Where(i => i.Answer == null)
+                .ToListAsync();
+            var mapped = _mapper.Map<List<QuestionDTO>>(questions);
+            return new Response<List<QuestionDTO>>(ResponseType.Success, mapped);
+        }
+
+        public async Task<IResponse<List<QuestionDTO>>> GetSellerQuestions(int? sellerId)
+        {
+            var questions =await _context.Questions.Where(i => i.Product.SellerId == sellerId)
+                .Include(i=>i.Answer)
+                .Include(i=>i.Product)
+                .ToListAsync();
+            var mapped=_mapper.Map<List<QuestionDTO>>(questions);
+            return new Response<List<QuestionDTO>>(ResponseType.Success,mapped);
+        }
     }
 }

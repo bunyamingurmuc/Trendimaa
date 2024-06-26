@@ -1,4 +1,5 @@
 ﻿using Trendeimaa.Entities.Interface;
+using Trendimaa.Common.Enum;
 
 namespace Trendeimaa.Entities
 {
@@ -16,6 +17,9 @@ namespace Trendeimaa.Entities
             Favorites =new List<Favorite> ();
             Favorites =new List<Favorite> ();
             Questions = new List<Question> ();
+            CreditCards =new List<CreditCard> ();
+            UserKeys =new List<UserKey> ();
+            Notifications = new List<Notification> ();
         }
 
         public string Name { get; set; }
@@ -23,6 +27,8 @@ namespace Trendeimaa.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string PhoneNumber{ get; set; }
+        public Language? Language { get; set; }
+        public Currency? Currency{ get; set; }
         public string? UserIdentity { get; set; }
         public int? WalletId { get; set; }
         public Wallet? Wallet { get; set; }
@@ -34,6 +40,9 @@ namespace Trendeimaa.Entities
         public List<Order> Orders{ get; set; }
         public List<Favorite> Favorites{ get; set; }
         public List<Question> Questions{ get; set; }
+        public List<CreditCard> CreditCards{ get; set; }
+        public List<UserKey> UserKeys { get; set; }
+        public List<Notification> Notifications { get; set; }
 
     }
 }

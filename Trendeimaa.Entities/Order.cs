@@ -10,7 +10,6 @@ namespace Trendeimaa.Entities
             WalletItems = new List<WalletItem>();
         }
         public string? OrderNumber { get; set; }
-        public string? OrderImage { get; set; }
         public string? SellerName { get; set; }
         public string? Name { get; set; }
         public Currency? Currency { get; set; }
@@ -18,10 +17,13 @@ namespace Trendeimaa.Entities
         public string? Email { get; set; }
         public string? Note { get; set; }
         public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? Suburb { get; set; }
+        public string? Region { get; set; }
         public int? Discount { get; set; }
         public double? CouponPrice { get; set; }
         public double? TotalPrice { get; set; }
-        public bool? IsForMarket { get; set; }
+        public DateTime? EstimatedDeliveryTime { get; set; } = DateTime.Now.AddDays(14);
         public OrderStatus OrderStatus { get; set; } = OrderStatus.GettingReady;
         //public OrderCancelReason? OrderCancelReason { get; set; }
         public DateTime? CompletionTime { get; set; }

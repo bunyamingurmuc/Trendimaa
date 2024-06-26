@@ -30,5 +30,12 @@ namespace Trendimaa.BLL.Abstract
             return new Response<List<CommentDTO>>(ResponseType.Success, mapped);
 
         }
+
+        public async Task<IResponse<List<CommentDTO>>> GetSellerComments(int sellerId)
+        {
+            var comments = await _context.Comments.Where(i => i.Product.SellerId == sellerId).Include(i => i.Images).AsNoTracking().ToListAsync();
+            var mapped = _mapper.Map<List<CommentDTO>>(comments);
+            return new Response<List<CommentDTO>>(ResponseType.Success, mapped);
+        }
     }
 }

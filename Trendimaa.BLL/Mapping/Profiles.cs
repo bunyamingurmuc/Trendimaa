@@ -12,6 +12,7 @@ using Trendimaa.DTO.Product;
 using Trendimaa.DTO.SearchDTOs;
 using Trendimaa.DTO.SearchRelated;
 using Trendimaa.DTO.Seller;
+using Trendimaa.DTO.WalletDTOs;
 
 namespace Trendimaa.BLL.Mapping
 {
@@ -23,6 +24,7 @@ namespace Trendimaa.BLL.Mapping
             CreateMap<Image, ImageDTO>().ReverseMap();
             CreateMap<Product, ProductSellerListDto>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<Product, ProductSellerDTO>().ReverseMap();
             CreateMap<Specification, SpecificationDTO>().ReverseMap();
             CreateMap<Variety, VarietyDTO>().ReverseMap();
             CreateMap<Category, CategoryDTO>().ReverseMap();
@@ -72,6 +74,17 @@ namespace Trendimaa.BLL.Mapping
             
             CreateMap<Answer, AnswerDTO>().ReverseMap();
             CreateMap<Question, QuestionDTO>().ReverseMap();
+
+            CreateMap<Specification, BasicSpecificationDTO>().ReverseMap();
+            CreateMap<Variety, BasicVarietyDTO>().ReverseMap();
+            
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+            
+            CreateMap<Notification, NotificationDTO>().ReverseMap();
+           
+            CreateMap<Wallet, WalletDTO>().ReverseMap();
+            CreateMap<WalletItem, WalletItemDTO>().ReverseMap();
 
         }
     }

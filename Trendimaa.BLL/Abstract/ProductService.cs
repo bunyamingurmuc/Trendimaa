@@ -5,6 +5,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Data;
 using System.Device.Location;
+using System.IO.Compression;
 using Trendeimaa.Entities;
 using Trendimaa.BLL.Helper;
 using Trendimaa.BLL.Interface;
@@ -629,6 +630,7 @@ namespace Trendimaa.BLL.Abstract
                 TotalProductCount = Count,
                 Products = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
             };
+
             return new Response<CSellerProductsDto>(ResponseType.Success, dto);
         }
 
@@ -676,7 +678,89 @@ namespace Trendimaa.BLL.Abstract
 
         }
 
+        public async Task<IResponse<List<ProductSellerDTO>>> GetOtherProductSellers(int? productId)
+        {
+            var product =await _context.Products.Where(i => i.Id == productId).FirstOrDefaultAsync();
+            var products = _context.Products.
+                Include(i=>i.Seller).
+                Include(i=>i.Images).
+                Where(i => i.Name==product.Name).ToList();
+            var mapped=_mapper.Map<List<ProductSellerDTO>>(products);
+            return new Response<List<ProductSellerDTO>>(ResponseType.Success, mapped);
+        }
 
+        public async Task<IResponse<List<BasicProductCardDTO>>> GetSellerStockProducts(int? sellerId)
+        {
+            var products =await _context.Products.Where(i => i.SellerId == sellerId && i.StockPiece > 0)
+                 .Include(i => i.Images)
+                 .ToListAsync();
+            var mapped=_mapper.Map<List<BasicProductCardDTO>>(products);
+            return new Response<List<BasicProductCardDTO>>(ResponseType.Success,mapped);
+        }
+
+        public async Task<IResponse<List<BasicProductCardDTO>>> GetSellerNotStockProducts(int? sellerId)
+        {
+            var products = await _context.Products.Where(i => i.SellerId == sellerId && i.StockPiece == 0)
+                .Include(i => i.Images)
+                .ToListAsync();
+            var mapped = _mapper.Map<List<BasicProductCardDTO>>(products);
+            return new Response<List<BasicProductCardDTO>>(ResponseType.Success, mapped);
+        }
+
+        public async Task<IResponse<List<BasicProductCardDTO>>> GetSellerNotConfirmedProducts(int? sellerId)
+        {
+            var products = await _context.Products.Where(i => i.SellerId == sellerId && i.ConfirmStatus == ConfirmStatus.pending)
+                .Include(i => i.Images)
+                .ToListAsync();
+            var mapped = _mapper.Map<List<BasicProductCardDTO>>(products);
+            return new Response<List<BasicProductCardDTO>>(ResponseType.Success, mapped);
+
+        }
+
+        public async Task<IResponse<BasicProductCardDTO>> GetProductWithBarcode(string StockCode)
+        {
+            StockCode = StockCode.Trim();
+            var data =await _context.Products.Where(i => i.StockCode == StockCode).FirstOrDefaultAsync();
+            var mapped=_mapper.Map<BasicProductCardDTO>(data);
+            return new Response<BasicProductCardDTO>(ResponseType.Success, mapped);
+        }
+
+        public async Task<IResponse<Product>> UpdateProduct(Product product)
+        {
+            //var uProduct =await _context.Products.Where(i => i.Id == product.Id)
+            //     .Include(i => i.Specifications)
+            //     .Include(i => i.Varieties)
+            //     .FirstOrDefaultAsync();
+            //var specs=product.Specifications;
+            //var varieties=product.Varieties;
+            throw new NotImplementedException();
+
+        }
+
+        public async Task Free()
+        {
+            var data = _context.Products.ToList();
+            var unchanged= data;
+            foreach(var item in data)
+            {
+                item.StockCode = "TRD121535";
+              await  UpdateAsync(item);
+            }
+        }
+
+       
+
+        public async Task<IResponse> ApplyDiscount(List<int> productIds, int percent, double price)
+        {
+            var products =await _context.Products.Where(i => productIds.Contains(i.Id.Value)).ToListAsync();
+            if (percent!=null)
+                foreach (var product in products)
+                {
+                   var updated= await UpdateAsync(product);
+                }
+            return new Response(ResponseType.Success);
+
+        }
     }
 }
 

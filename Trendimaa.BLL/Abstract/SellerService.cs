@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orde.BLL.Extension.Token;
+using System.Diagnostics;
+using System.Linq;
 using Trendeimaa.Entities;
 using Trendimaa.BLL.Extension;
 using Trendimaa.BLL.Extension.Token;
@@ -9,6 +12,7 @@ using Trendimaa.Common;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Seller;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -67,5 +71,33 @@ namespace Trendimaa.BLL.Abstract
             _uow.SaveChangesAsync();
             return new Response(ResponseType.Success);
         }
+
+        public async Task<IResponse<SellerMainHomeDataDTO>> GetSellerMainHomeData(int sellerId)
+        {
+           var seller=await _context.Sellers.Where(i=>i.Id== sellerId)
+                .Include(i=>i.Orders)
+                .FirstOrDefaultAsync();
+            var outofStockCount=await _context.Products.Where(i=>i.SellerId==sellerId&&i.StockPiece==0).CountAsync();
+            var pendingReturns = seller.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Returned).Count();
+            var delayedOrders = seller.Orders.Where(i=>i.EstimatedDeliveryTime>=DateTime.Now&&i.OrderStatus==Common.Enum.OrderStatus.OnTheRoad).Count();
+            var pendingOrders = seller.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Paid).Count();
+            var dailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i=>i.TotalPrice);
+            var MountlySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i=>i.TotalPrice);
+            var PreviousdailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.AddDays(-1).Day).Sum(i=>i.TotalPrice);
+            var PreviousSalesAmount = seller.Orders.Where(i => i.CreatedDate.Month == DateTime.Now.Month).Sum(i=>i.TotalPrice);
+            return new Response<SellerMainHomeDataDTO>(ResponseType.Success ,new SellerMainHomeDataDTO());
+
+
+
+        //         public int OutofStockCount { get; set; }
+        //public int PendingReturns { get; set; }
+        //public int DelayedOrders { get; set; }
+        //public int PendingOrders { get; set; }
+        //public double DailySalesAmount { get; set; }
+        //public double WeeklySalesAmount { get; set; }
+        //public double MountlySalesAmount { get; set; }
+        //public double RateWeeklySalesAmount { get; set; }
+        //public double RateMountlySalesAmount { get; set; }
+    }
     }
 }

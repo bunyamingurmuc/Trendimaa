@@ -22,6 +22,21 @@ namespace Trendimaa.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Orde.Entity.RelatedTables.SellerCouponOffer", b =>
+                {
+                    b.Property<int?>("CouponOfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CouponOfferId", "SellerId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("SellerCouponOffer");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.Address", b =>
                 {
                     b.Property<int?>("Id")
@@ -33,6 +48,9 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<string>("AddressTopic")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AddressType")
+                        .HasColumnType("int");
 
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
@@ -62,7 +80,7 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Answer", b =>
@@ -109,9 +127,15 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Currency")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Language")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -392,11 +416,30 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CouponOfferId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ExpireTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsExist")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
+                    b.Property<double>("MinOrderAmount")
+                        .HasColumnType("float");
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
@@ -411,9 +454,100 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("AppUserId");
 
+                    b.HasIndex("CouponOfferId");
+
                     b.HasIndex("SellerId");
 
                     b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.CouponOffer", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<double>("CouponAmount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpireTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsForFirstTimeUser")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsJustForSeller")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOneTime")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("MinOrderAmount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Piece")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("RemainingSeconds")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CouponOffers");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.CreditCard", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FirstDigits")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LastDigits")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("CreditCards");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Favorite", b =>
@@ -494,6 +628,9 @@ namespace Trendimaa.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -504,15 +641,22 @@ namespace Trendimaa.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
                     b.HasIndex("ImageId")
                         .IsUnique()
                         .HasFilter("[ImageId] IS NOT NULL");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Notifications");
                 });
@@ -530,6 +674,9 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CompletionTime")
                         .HasColumnType("datetime2");
@@ -552,16 +699,13 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsForMarket")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("EstimatedDeliveryTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OrderImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderNumber")
@@ -570,10 +714,16 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
                     b.Property<string>("SellerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suburb")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
@@ -592,7 +742,7 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.OrderItem", b =>
@@ -618,19 +768,10 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<double?>("ItemPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("MenuName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PortionName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductMId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -645,7 +786,7 @@ namespace Trendimaa.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Product", b =>
@@ -663,10 +804,13 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<int?>("CampaignId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CashbackAmount")
-                        .HasColumnType("int");
+                    b.Property<double?>("CashbackAmount")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ConfirmStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -714,8 +858,8 @@ namespace Trendimaa.DAL.Migrations
                     b.Property<double>("ShippingPrice")
                         .HasColumnType("float");
 
-                    b.Property<int?>("StockCode")
-                        .HasColumnType("int");
+                    b.Property<string>("StockCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StockPiece")
                         .HasColumnType("int");
@@ -765,8 +909,19 @@ namespace Trendimaa.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirstLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastLatter")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("replyDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -794,6 +949,21 @@ namespace Trendimaa.DAL.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("FavoriteProduct");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.Related.SellerCoupon", b =>
+                {
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SellerId", "CouponId");
+
+                    b.HasIndex("CouponId");
+
+                    b.ToTable("SellerCoupon");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.SearchRelated", b =>
@@ -971,6 +1141,36 @@ namespace Trendimaa.DAL.Migrations
                     b.ToTable("Specifications");
                 });
 
+            modelBuilder.Entity("Trendeimaa.Entities.UserKey", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("UserKeys");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.Variety", b =>
                 {
                     b.Property<int?>("Id")
@@ -1080,6 +1280,25 @@ namespace Trendimaa.DAL.Migrations
                     b.ToTable("WalletItems");
                 });
 
+            modelBuilder.Entity("Orde.Entity.RelatedTables.SellerCouponOffer", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.CouponOffer", "CouponOffer")
+                        .WithMany("SellerCouponOffers")
+                        .HasForeignKey("CouponOfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithMany("SellerCouponOffers")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CouponOffer");
+
+                    b.Navigation("Seller");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.Address", b =>
                 {
                     b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
@@ -1177,6 +1396,11 @@ namespace Trendimaa.DAL.Migrations
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.CouponOffer", "CouponOffer")
+                        .WithMany("Coupons")
+                        .HasForeignKey("CouponOfferId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Trendeimaa.Entities.Seller", "Seller")
                         .WithMany("Coupons")
                         .HasForeignKey("SellerId")
@@ -1184,7 +1408,19 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("AppUser");
 
+                    b.Navigation("CouponOffer");
+
                     b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.CreditCard", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
+                        .WithMany("CreditCards")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Favorite", b =>
@@ -1237,12 +1473,26 @@ namespace Trendimaa.DAL.Migrations
 
             modelBuilder.Entity("Trendeimaa.Entities.Notification", b =>
                 {
+                    b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
+                        .WithMany("Notifications")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Trendeimaa.Entities.Image", "Image")
                         .WithOne("Notification")
                         .HasForeignKey("Trendeimaa.Entities.Notification", "ImageId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithMany("Notifications")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AppUser");
+
                     b.Navigation("Image");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Order", b =>
@@ -1364,6 +1614,25 @@ namespace Trendimaa.DAL.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Trendeimaa.Entities.Related.SellerCoupon", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.Coupon", "Coupon")
+                        .WithMany()
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+
+                    b.Navigation("Seller");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.SearchRelated", b =>
                 {
                     b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
@@ -1434,6 +1703,23 @@ namespace Trendimaa.DAL.Migrations
                     b.Navigation("SubCategory");
 
                     b.Navigation("SubSubCategory");
+                });
+
+            modelBuilder.Entity("Trendeimaa.Entities.UserKey", b =>
+                {
+                    b.HasOne("Trendeimaa.Entities.AppUser", "AppUser")
+                        .WithMany("UserKeys")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Trendeimaa.Entities.Seller", "Seller")
+                        .WithMany("UserKeys")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Variety", b =>
@@ -1507,13 +1793,19 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("Coupons");
 
+                    b.Navigation("CreditCards");
+
                     b.Navigation("Favorites");
+
+                    b.Navigation("Notifications");
 
                     b.Navigation("Orders");
 
                     b.Navigation("Questions");
 
                     b.Navigation("SearchRelateds");
+
+                    b.Navigation("UserKeys");
 
                     b.Navigation("Wallet");
                 });
@@ -1575,6 +1867,13 @@ namespace Trendimaa.DAL.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("Trendeimaa.Entities.CouponOffer", b =>
+                {
+                    b.Navigation("Coupons");
+
+                    b.Navigation("SellerCouponOffers");
+                });
+
             modelBuilder.Entity("Trendeimaa.Entities.Favorite", b =>
                 {
                     b.Navigation("favoriteProducts");
@@ -1619,9 +1918,15 @@ namespace Trendimaa.DAL.Migrations
 
                     b.Navigation("Image");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Products");
+
+                    b.Navigation("SellerCouponOffers");
+
+                    b.Navigation("UserKeys");
                 });
 
             modelBuilder.Entity("Trendeimaa.Entities.Wallet", b =>

@@ -66,5 +66,13 @@ namespace Trendimaa.API.Controllers
             var response = await _service.GetProductVarities(productId);
             return this.ResponseStatusWithData(response);
         }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerVarieties(int? subCategoryid, int? subSubCategoryid)
+        {
+
+            var response = await _service.GetSellerVarieties(subCategoryid, subSubCategoryid);
+            return this.ResponseStatusWithData(response);
+        }
     }
 }

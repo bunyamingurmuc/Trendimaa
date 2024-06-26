@@ -11,6 +11,8 @@ namespace Trendimaa.BLL.Interface
 {
     public interface IProductService : IService<Product>
     {
+        public Task<IResponse<Product>> UpdateProduct(Product product);
+
         public Task<IResponse<List<HomeProductCardDto>>> GetHomeRelatedProducts(int userId);
         public Task<IResponse<List<HomeProductCardDto>>> GetLastLookedProducts(int userId);
         public Task<IResponse<List<HomeProductCardDto>>> GetAroundMostLooked(double latitude, double longitude);
@@ -33,5 +35,12 @@ namespace Trendimaa.BLL.Interface
         public Task<IResponse<ProductDetailDTO>> GetProductDetail(int productId);
         public Task<IResponse<List<BasicProductCardDTO>>> GetSameProducts(int productId);
         public Task<IResponse<List<BasicProductCardDTO>>> GetCategoriesProduducts(int? cateid, int? subcateid, int? subsubcateid);
+        public Task<IResponse<List<ProductSellerDTO>>> GetOtherProductSellers(int? productId);
+        public Task<IResponse<List<BasicProductCardDTO>>> GetSellerStockProducts(int? sellerId);
+        public Task<IResponse<List<BasicProductCardDTO>>> GetSellerNotStockProducts(int? sellerId);
+        public Task<IResponse<List<BasicProductCardDTO>>> GetSellerNotConfirmedProducts(int? sellerId);
+        public Task<IResponse<BasicProductCardDTO>> GetProductWithBarcode(string StockCode);
+        public Task<IResponse> ApplyDiscount(List<int> productIds, int percent, double price);
+        public Task Free();
     }
 }

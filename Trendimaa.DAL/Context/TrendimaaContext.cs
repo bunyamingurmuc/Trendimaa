@@ -24,6 +24,7 @@ namespace Trendimaa.DAL.Context
         public DbSet<Answer>? Answers{ get; set; }
         public DbSet<Campaign>? Campaigns{ get; set; }
         public DbSet<Coupon>? Coupons{ get; set; }
+        public DbSet<CouponOffer>? CouponOffers{ get; set; }
         public DbSet<Card>? Cards { get; set; }
         public DbSet<CardItem>? CardItems { get; set; }
         public DbSet<SearchRelated>? SearchRelateds { get; set; }
@@ -31,6 +32,11 @@ namespace Trendimaa.DAL.Context
         public DbSet<Favorite>? Favorites{ get; set; }
         public DbSet<Wallet>? Wallets{ get; set; }
         public DbSet<WalletItem>? WalletItems { get; set; }
+        public DbSet<CreditCard>? CreditCards { get; set; }
+        public DbSet<Address>? Addresses { get; set; }
+        public DbSet<UserKey>? UserKeys { get; set; }
+        public DbSet<Order>? Orders { get; set; }
+        public DbSet<OrderItem>? OrderItems { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

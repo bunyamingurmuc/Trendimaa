@@ -1,4 +1,6 @@
-﻿using Trendeimaa.Entities.Interface;
+﻿using Orde.Entity.RelatedTables;
+using Trendeimaa.Entities.CategoryFolder;
+using Trendeimaa.Entities.Interface;
 using Trendimaa.Common.Enum;
 
 namespace Trendeimaa.Entities
@@ -11,6 +13,12 @@ namespace Trendeimaa.Entities
             Coupons = new List<Coupon>();
             Orders = new List<Order>();
             Answers = new List<Answer>();
+            SellerCouponOffers = new List<SellerCouponOffer>();
+            UserKeys = new List<UserKey>();
+            Notifications = new List<Notification>();
+
+            //subSubCategories = new List<SubSubCategory>();
+            //subCategories= new List<SubCategory>();
         }
         public string CompanyName { get; set; }
         public string CompanyFullName { get; set; }
@@ -35,6 +43,11 @@ namespace Trendeimaa.Entities
         public List<Answer> Answers { get; set; }
         public int? ImageId { get; set; }
         public Image? Image { get; set; }
+        public List<SellerCouponOffer> SellerCouponOffers { get; set; }
+        public List<UserKey> UserKeys{ get; set; }
+        public List<Notification> Notifications { get; set; }
+        //public List<SubCategory> subCategories{ get; set; }
+        //public List<SubSubCategory> subSubCategories{ get; set; }
 
     }
 }

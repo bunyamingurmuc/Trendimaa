@@ -69,10 +69,10 @@ namespace Trendimaa.API.Controllers
             return this.ResponseStatusWithData(response);
         }  [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> GetSubCategories(Language language)
+        public async Task<ActionResult> GetSubCategories(Language language, int catId)
         {
 
-            var response = await _service.GetSubCategories(language);
+            var response = await _service.GetSubCategories(language,catId);
             return this.ResponseStatusWithData(response);
         }
     }

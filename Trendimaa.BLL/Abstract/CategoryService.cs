@@ -28,14 +28,18 @@ namespace Trendimaa.BLL.Abstract
 
         public async Task<IResponse<List<CategoryHomeDTO>>> GetCategories(Language language)
         {
-            var cats = await _context.Categories.ToListAsync();
+            var cats = await _context.Categories
+                .Include(i=>i.Images)
+                .ToListAsync();
             var mapped = _mapper.Map<List<CategoryHomeDTO>>(cats);
             return new Common.Response<List<CategoryHomeDTO>>(ResponseType.Success, mapped);
         }
 
         public async Task<IResponse<List<CategoryHomeDTO>>> GetMainHomeCategories(Language language)
         {
-            var cats =await _context.Categories.ToListAsync();
+            var cats =await _context.Categories
+                .Include(i=>i.Images)
+                .ToListAsync();
             var mapped = _mapper.Map<List<CategoryHomeDTO>>(cats);
             return new Common.Response<List<CategoryHomeDTO>>(ResponseType.Success, mapped);
         }

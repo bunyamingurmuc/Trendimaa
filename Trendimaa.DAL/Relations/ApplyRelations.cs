@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Orde.Entity.RelatedTables;
 using Trendeimaa.Entities;
 using Trendeimaa.Entities.CategoryFolder;
 using Trendeimaa.Entities.Related;
@@ -75,6 +76,18 @@ namespace Trendimaa.DAL.Relations
            
             builder.Entity<Answer>().HasOne(a => a.Seller).WithMany(s => s.Answers).HasForeignKey(s => s.SellerId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
             builder.Entity<Answer>().HasOne(a => a.Question).WithOne(s => s.Answer).HasForeignKey<Question>(s => s.AnswerId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<CreditCard>().HasOne(a => a.AppUser).WithMany(s => s.CreditCards).HasForeignKey(s => s.AppUserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<CouponOffer>().HasMany(i => i.Coupons).WithOne(i => i.CouponOffer).HasForeignKey(s => s.CouponOfferId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<SellerCouponOffer>().HasKey(sc => new { sc.CouponOfferId, sc.SellerId });
+            builder.Entity<SellerCoupon>().HasKey(sc => new { sc.SellerId, sc.CouponId });
+           
+            
+            builder.Entity<UserKey>().HasOne(i => i.AppUser).WithMany(i => i.UserKeys).HasForeignKey(s => s.AppUserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<UserKey>().HasOne(i => i.Seller).WithMany(i => i.UserKeys).HasForeignKey(s => s.SellerId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+
+           builder.Entity<Notification>().HasOne(i => i.AppUser).WithMany(i => i.Notifications).HasForeignKey(s => s.AppUserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<Notification>().HasOne(i => i.Seller).WithMany(i => i.Notifications).HasForeignKey(s => s.SellerId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
 
         }
     }

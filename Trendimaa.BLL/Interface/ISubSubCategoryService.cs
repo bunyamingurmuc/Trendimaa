@@ -9,7 +9,7 @@ namespace Trendimaa.BLL.Interface
     public interface ISubSubCategoryService:IService<SubSubCategory>
     {
 
-        public Task<IResponse<List<CategoryHomeDTO>>> GetSubSubCategories(Language language);
+        public Task<IResponse<List<CategoryHomeDTO>>> GetSubSubCategories(Language language, int subCatId);
 
     }
 

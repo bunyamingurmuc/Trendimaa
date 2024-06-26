@@ -4,8 +4,7 @@ namespace Trendimaa.DTO.Image
 {
     public class MainHomeCampaignDTO
     {
-        public int? ImageId { get; set; }
-        public ImageDTO? Image { get; set; }
+        public List<ImageDTO> Images{ get; set; }
         public string? MiddleTitle { get; set; }
         public string? LowerTitle { get; set; }
         public string? BoldLowerTitle { get; set; }

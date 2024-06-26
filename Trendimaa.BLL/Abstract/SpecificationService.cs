@@ -6,6 +6,7 @@ using Trendimaa.BLL.Interface;
 using Trendimaa.Common;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
+using Trendimaa.DTO;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -21,6 +22,18 @@ namespace Trendimaa.BLL.Abstract
             _mapper = mapper;
             _validator = validator;
             _uow = uow;
+        }
+
+        public async Task<IResponse<List<BasicSpecificationDTO>>> GetSellerSpecifications(int? subCategoryid, int? subSubCategoryid)
+        {
+            var specs= new List<Specification>();
+           if (subCategoryid != null)
+                 specs =await _context.Specifications.Where(i=>i.SubCategoryId== subCategoryid).ToListAsync();
+           if (subSubCategoryid != null)
+                 specs =await _context.Specifications.Where(i=>i.SubSubCategoryId== subSubCategoryid).ToListAsync();
+           var mapped = _mapper.Map<List<BasicSpecificationDTO>>(specs);
+            return new Response<List<BasicSpecificationDTO>>(ResponseType.Success,mapped);
+
         }
 
         public async Task<IResponse<List<Specification>>> GetProductSpecifications(int productId)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trendimaa.API.Extension;
-using Trendimaa.BLL.Abstract;
 using Trendimaa.BLL.Interface;
 using Trendimaa.Common.Enum;
 
@@ -49,6 +48,7 @@ namespace Trendimaa.API.Controllers
             var response = await _campaignService.GetMainHomeCampaigns(language);
             return this.ResponseStatusWithData(response);
         }
+
         [HttpGet]
         [Route("/[controller]/[action]")]
         public async Task<ActionResult> GetMainHomeProducts()
