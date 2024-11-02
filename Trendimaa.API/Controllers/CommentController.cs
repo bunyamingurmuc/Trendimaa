@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
@@ -67,10 +66,10 @@ namespace Trendimaa.API.Controllers
         } 
         [HttpGet]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> GetProductComments(int productId)
+        public async Task<ActionResult> GetProductCommentsWithCount(int productId, int page, int quantity)
         {
 
-            var response = await _service.GetProductComments(productId);
+            var response = await _service.GetProductCommentsWithCount(productId,page,quantity);
             return this.ResponseStatusWithData(response);
         }
     }

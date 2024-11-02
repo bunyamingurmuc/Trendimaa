@@ -7,6 +7,7 @@ using Trendimaa.Common;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Listing;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -23,19 +24,31 @@ namespace Trendimaa.BLL.Abstract
             _validator = validator;
             _uow = uow;
         }
-        public async Task<IResponse<List<CommentDTO>>> GetProductComments(int productId)
+        public async Task<IResponse<ListingDTO<CommentDTO>>> GetProductCommentsWithCount(int productId, int page, int quantity)
         {
-            var comments = await _context.Comments.Where(i=>i.ProductId==productId).Include(i => i.Images).AsNoTracking().ToListAsync();
-            var mapped = _mapper.Map<List<CommentDTO>>(comments);
-            return new Response<List<CommentDTO>>(ResponseType.Success, mapped);
+            var data = await _context.Comments.Where(i => i.Product.SellerId == productId).Include(i => i.Images).AsNoTracking().ToListAsync();
+            var mapped = _mapper.Map<List<CommentDTO>>(data);
+            ListingDTO<CommentDTO> dto = new ListingDTO<CommentDTO>()
+            {
+                Count = data.Count,
+                List = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
+            };
+
+            return new Response<ListingDTO<CommentDTO>>(ResponseType.Success, dto);
 
         }
 
-        public async Task<IResponse<List<CommentDTO>>> GetSellerComments(int sellerId)
+        public async Task<IResponse<ListingDTO<CommentDTO>>> GetSellerCommentsWithCount(int sellerId, int page, int quantity)
         {
-            var comments = await _context.Comments.Where(i => i.Product.SellerId == sellerId).Include(i => i.Images).AsNoTracking().ToListAsync();
-            var mapped = _mapper.Map<List<CommentDTO>>(comments);
-            return new Response<List<CommentDTO>>(ResponseType.Success, mapped);
+            var data = await _context.Comments.Where(i => i.Product.SellerId == sellerId).Include(i => i.Images).AsNoTracking().ToListAsync();
+           var mapped= _mapper.Map<List<CommentDTO>>(data);
+            ListingDTO<CommentDTO> dto = new ListingDTO<CommentDTO>()
+            {
+                Count=data.Count,
+                List= mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
+            };
+
+            return new Response<ListingDTO<CommentDTO>>(ResponseType.Success, dto);
         }
     }
 }

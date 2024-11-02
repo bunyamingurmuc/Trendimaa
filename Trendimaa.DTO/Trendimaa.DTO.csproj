@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Excel\" />
+    <Folder Include="CommentDTO\" />
     <Folder Include="ProductDetail\" />
   </ItemGroup>
 
