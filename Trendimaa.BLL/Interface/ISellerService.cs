@@ -2,6 +2,9 @@
 using Trendeimaa.Entities;
 using Trendimaa.Common;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Listing;
+using Trendimaa.DTO.Order;
+using Trendimaa.DTO.Product;
 using Trendimaa.DTO.Seller;
 
 namespace Trendimaa.BLL.Interface
@@ -13,5 +16,10 @@ namespace Trendimaa.BLL.Interface
         Task<IResponse<JwtTokenResponse>> LogIn(CSellerLoginDto dto);
         Task<IResponse<SellerMainHomeDataDTO>> GetSellerMainHomeData(int sellerId);
         Task<IResponse> up();
+        Task<IResponse<ListingDTO<SellerCardDTO>>> GetSellers(int quantity,int page, string? word);
+        Task<IResponse<Seller>> GetSellerInfo(int sellerId);
+        Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId);
+        Task<IResponse<ListingDTO<Coupon>>> GetSellerCoupons(int sellerId);
+        Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId);
     }
 }

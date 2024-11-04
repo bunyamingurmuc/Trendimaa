@@ -108,5 +108,10 @@ namespace Trendimaa.BLL.Helper
                      .ToLower();
            
         }
+      
+
+       
     }
+
 }
+

@@ -12,6 +12,9 @@ using Trendimaa.Common;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Listing;
+using Trendimaa.DTO.Order;
+using Trendimaa.DTO.Product;
 using Trendimaa.DTO.Seller;
 
 namespace Trendimaa.BLL.Abstract
@@ -99,5 +102,53 @@ namespace Trendimaa.BLL.Abstract
         //public double RateWeeklySalesAmount { get; set; }
         //public double RateMountlySalesAmount { get; set; }
     }
+
+        public async Task<IResponse<ListingDTO<SellerCardDTO>>> GetSellers(int quantity, int page,string? word)
+        {
+            var data = await _context.Sellers
+                .Include(i=>i.Image)
+                .OrderBy(i=>i.CreatedDate)
+                .ToListAsync();
+          
+            if (word != null && word.Length >= 2)
+            {
+                word = word.ToLower().Trim();
+                data = data
+               .Where(i => i.CompanyFullName.ToLower().Contains(word) || i.CompanyName.ToLower().Contains(word) || i.TaxIdentificationNumber.ToString().ToLower().Contains(word))
+               .OrderByDescending(i => i.CreatedDate)
+               .ToList();
+            }
+            var mapped=_mapper.Map<List<SellerCardDTO>>(data);
+            ListingDTO<SellerCardDTO> dto = new ListingDTO<SellerCardDTO>()
+            {
+                Count = mapped.Count,
+                List = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
+            };
+            return new Response<ListingDTO<SellerCardDTO>>(ResponseType.Success,dto);
+
+        }
+
+        public async Task<IResponse<Seller>> GetSellerInfo(int sellerId)
+        {
+            var seller=await _context.Sellers.Where(i=>i.Id== sellerId)
+                .Include(i=>i.Image)
+                .FirstOrDefaultAsync();
+           return new Response<Seller>(ResponseType.Success,seller);
+        }
+
+        public Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId,int count,int page)
+        {
+            var sellerProducts= _context.
+        }
+
+        public Task<IResponse<ListingDTO<Coupon>>> GetSellerCoupons(int sellerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

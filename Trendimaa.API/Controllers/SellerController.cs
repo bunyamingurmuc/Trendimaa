@@ -74,5 +74,13 @@ namespace Trendimaa.API.Controllers
             var response = await _service.up();
             return this.ResponseStatusWithData(response);
         }
+        [HttpPost]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellers(int quantity, int page, string? word)
+        {
+
+            var response = await _service.GetSellers(quantity,page,word);
+            return this.ResponseStatusWithData(response);
+        }
     }
 }

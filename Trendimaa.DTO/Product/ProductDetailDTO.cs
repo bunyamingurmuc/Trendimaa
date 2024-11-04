@@ -10,7 +10,7 @@ namespace Trendimaa.DTO.Product
     {
         public string Name { get; set; }
         public string Brand { get; set; }
-        public int StockPiece { get; set; }
+        public int StockPiece { get; set; } 
         public string Detail { get; set; }
         public double StockPrice { get; set; }
         public int? Discount { get; set; } = 0;
