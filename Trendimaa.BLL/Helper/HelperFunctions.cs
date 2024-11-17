@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Trendeimaa.Entities;
 
 namespace Trendimaa.BLL.Helper
 {
@@ -108,9 +109,15 @@ namespace Trendimaa.BLL.Helper
                      .ToLower();
            
         }
-      
+        public static List<Product> GetUniqueProductsByGroupCode(List<Product> products)
+        {
+            return products
+                .GroupBy(p => p.GroupCode)     // GroupCode'a göre gruplama
+                .Select(g => g.First())        // Her gruptan ilk ürünü seçme
+                .ToList();                     // Sonuçları liste olarak döndürme
+        }
 
-       
+
     }
 
 }

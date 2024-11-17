@@ -88,6 +88,9 @@ namespace Trendimaa.DAL.Relations
 
            builder.Entity<Notification>().HasOne(i => i.AppUser).WithMany(i => i.Notifications).HasForeignKey(s => s.AppUserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
             builder.Entity<Notification>().HasOne(i => i.Seller).WithMany(i => i.Notifications).HasForeignKey(s => s.SellerId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            
+            builder.Entity<AlarmItem>().HasOne(i => i.Product).WithMany(i => i.AlarmItems).HasForeignKey(s => s.ProductId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
+            builder.Entity<AlarmItem>().HasOne(i => i.AppUser).WithMany(i => i.AlarmItems).HasForeignKey(s => s.AppUserId).IsRequired(false).OnDelete(DeleteBehavior.SetNull);
 
         }
     }

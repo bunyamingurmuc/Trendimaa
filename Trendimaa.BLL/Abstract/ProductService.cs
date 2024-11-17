@@ -360,7 +360,7 @@ namespace Trendimaa.BLL.Abstract
                 products = products.Where(i => i.SubSubCategoryId == subsubCatId).ToList();
 
             }
-
+            products = HelperFunctions.GetUniqueProductsByGroupCode(products);
             var mapped = _mapper.Map<List<SearchProductDTO>>(products);
             return new Response<List<SearchProductDTO>>(ResponseType.Success, mapped);
         }
@@ -631,11 +631,14 @@ namespace Trendimaa.BLL.Abstract
                 Products = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
             };
 
+
             return new Response<CSellerProductsDto>(ResponseType.Success, dto);
         }
 
         public async Task<IResponse<ProductDetailDTO>> GetProductDetail(int productId)
         {
+
+
             var product = await _context.Products.Where(i => i.Id == productId)
                 //.Include(i => i.Specifications)
                 //.Include(i => i.Varieties)
@@ -646,8 +649,29 @@ namespace Trendimaa.BLL.Abstract
                 //.Include(i => i.Questions)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+            var varietiesPriceDto = new List<VarietiesPriceDto>();
+            var varietiesProducts = await _context.Products.Where(i => i.GroupCode == product.GroupCode)
+                .Include(i => i.Varieties)
+                .ToListAsync();
+            foreach (var varietiesProduct in varietiesProducts)
+            {
+                if (varietiesProduct.Varieties != null)
+                {
+                    foreach (var variety in varietiesProduct.Varieties)
+                    {
+                        varietiesPriceDto.Add(new VarietiesPriceDto()
+                        {
+                            Id = varietiesProduct.Id,
+                            IsStock = varietiesProduct.IsStock,
+                            VarietyName = variety.VarietyName,
+                            StockPrice = varietiesProduct.StockPrice,
+                        });
+                    }
+                }
+            }
 
             var mapped = _mapper.Map<ProductDetailDTO>(product);
+            mapped.VarietiesPrices = varietiesPriceDto;
             return new Response<ProductDetailDTO>(ResponseType.Success, mapped);
         }
 
@@ -680,22 +704,22 @@ namespace Trendimaa.BLL.Abstract
 
         public async Task<IResponse<List<ProductSellerDTO>>> GetOtherProductSellers(int? productId)
         {
-            var product =await _context.Products.Where(i => i.Id == productId).FirstOrDefaultAsync();
+            var product = await _context.Products.Where(i => i.Id == productId).FirstOrDefaultAsync();
             var products = _context.Products.
-                Include(i=>i.Seller).
-                Include(i=>i.Images).
-                Where(i => i.Name==product.Name).ToList();
-            var mapped=_mapper.Map<List<ProductSellerDTO>>(products);
+                Include(i => i.Seller).
+                Include(i => i.Images).
+                Where(i => i.Name == product.Name).ToList();
+            var mapped = _mapper.Map<List<ProductSellerDTO>>(products);
             return new Response<List<ProductSellerDTO>>(ResponseType.Success, mapped);
         }
 
         public async Task<IResponse<List<BasicProductCardDTO>>> GetSellerStockProducts(int? sellerId)
         {
-            var products =await _context.Products.Where(i => i.SellerId == sellerId && i.StockPiece > 0)
+            var products = await _context.Products.Where(i => i.SellerId == sellerId && i.StockPiece > 0)
                  .Include(i => i.Images)
                  .ToListAsync();
-            var mapped=_mapper.Map<List<BasicProductCardDTO>>(products);
-            return new Response<List<BasicProductCardDTO>>(ResponseType.Success,mapped);
+            var mapped = _mapper.Map<List<BasicProductCardDTO>>(products);
+            return new Response<List<BasicProductCardDTO>>(ResponseType.Success, mapped);
         }
 
         public async Task<IResponse<List<BasicProductCardDTO>>> GetSellerNotStockProducts(int? sellerId)
@@ -720,8 +744,8 @@ namespace Trendimaa.BLL.Abstract
         public async Task<IResponse<BasicProductCardDTO>> GetProductWithBarcode(string StockCode)
         {
             StockCode = StockCode.Trim();
-            var data =await _context.Products.Where(i => i.StockCode == StockCode).FirstOrDefaultAsync();
-            var mapped=_mapper.Map<BasicProductCardDTO>(data);
+            var data = await _context.Products.Where(i => i.StockCode == StockCode).FirstOrDefaultAsync();
+            var mapped = _mapper.Map<BasicProductCardDTO>(data);
             return new Response<BasicProductCardDTO>(ResponseType.Success, mapped);
         }
 
@@ -740,26 +764,64 @@ namespace Trendimaa.BLL.Abstract
         public async Task Free()
         {
             var data = _context.Products.ToList();
-            var unchanged= data;
-            foreach(var item in data)
+            var unchanged = data;
+            foreach (var item in data)
             {
                 item.StockCode = "TRD121535";
-              await  UpdateAsync(item);
+                await UpdateAsync(item);
             }
         }
 
-       
-
         public async Task<IResponse> ApplyDiscount(List<int> productIds, int percent, double price)
         {
-            var products =await _context.Products.Where(i => productIds.Contains(i.Id.Value)).ToListAsync();
-            if (percent!=null)
+            var products = await _context.Products.Where(i => productIds.Contains(i.Id.Value)).ToListAsync();
+            if (percent != null)
                 foreach (var product in products)
                 {
-                   var updated= await UpdateAsync(product);
+                    var updated = await UpdateAsync(product);
                 }
             return new Response(ResponseType.Success);
 
+        }
+
+        public async Task<IResponse<List<SearchProductDTO>>> GetSearchProductVarietiesResult(SearchParamtersDTO dto, string word, int count, int page)
+        {
+            var products = _context.Products.AsQueryable();
+            if (word.Length>=2)
+            {
+                word = HelperFunctions.OneCharacterReplace(word);
+                 products = _context.Products.Where(i => i.Brand.Contains(word) && i.Detail.Contains(word))
+                                    .AsQueryable();
+            }
+           
+            if (dto.MinPrice != null)
+                products.Where(i => i.StockPrice >= dto.MinPrice).AsQueryable();
+            if (dto.MaxPrice != null)
+                products.Where(i => i.StockPrice <= dto.MaxPrice).AsQueryable();
+            if (dto.Brands != null)
+                products.Where(i => dto.Brands.Contains(i.Brand)).AsQueryable();
+            if (dto.SubSubCategoryId != null)
+                products.Where(i => i.SubSubCategoryId == dto.SubSubCategoryId).AsQueryable();
+            if (dto.SubCategoryId != null)
+                products.Where(i => i.SubCategoryId == dto.SubCategoryId).AsQueryable();
+            if (dto.CategoryId != null)
+                products.Where(i => i.CategoryId == dto.CategoryId).AsQueryable();
+            if (dto.Specifications != null)
+            {
+                products.Where(product => product.Specifications
+                    .Any(spec => dto.Specifications
+                        .Any(s => s.Title == spec.Title && s.Description == spec.Description))).AsQueryable();
+            }
+            if (dto.Varieties != null)
+            {
+                products.Where(product => product.Varieties
+                    .Any(variet => dto.Varieties
+                        .Any(s => s.VarietyName == variet.VarietyName && s.Description == variet.Description))).AsQueryable();
+            }
+            products=  products.Include(i=>i.Images).OrderBy(i=>i.NumberOfClicks);
+            await products.ToListAsync();
+            var mapped=_mapper.Map<List<SearchProductDTO>>(products);
+            return new Response<List<SearchProductDTO>>(ResponseType.Success, mapped);
         }
     }
 }

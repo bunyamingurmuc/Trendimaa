@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Trendimaa.API.Extension;
 using Trendimaa.BLL.Interface;
+using Trendimaa.DTO.Product;
 using Trendimaa.DTO.SearchDTOs;
 
 namespace Trendimaa.API.Controllers
@@ -65,6 +66,13 @@ namespace Trendimaa.API.Controllers
         public async Task<ActionResult> GetSearchProductList(string word)
         {
 
+            var response = await _service.GetSearchProductList(word);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSearchProductVarietiesResult(SearchParamtersDTO dto, string word, int count, int page)
+        {
             var response = await _service.GetSearchProductList(word);
             return this.ResponseStatusWithData(response);
         }

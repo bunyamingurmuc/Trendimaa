@@ -9,6 +9,7 @@ using Trendimaa.Common;
 using Trendimaa.Common.Enum;
 using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
+using Trendimaa.DTO.Listing;
 using Trendimaa.DTO.Order;
 
 namespace Trendimaa.BLL.Abstract
@@ -153,14 +154,27 @@ namespace Trendimaa.BLL.Abstract
 
         }
 
-        public async Task<IResponse<List<OrderDTO>>> GetSellerOrders(int sellerId, OrderStatus orderStatus)
+        public async Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(SellerOrdersFilterDTO dto)
         {
-            var data = await _context.Orders.Where(i => i.SellerId == sellerId && i.OrderStatus == orderStatus)
+            var query =  _context.Orders.Where(i => i.SellerId == dto.sellerId && i.OrderStatus == dto.orderStatus)
                  .Include(i => i.OrderItems).ThenInclude(i => i.Product)
-                 .AsNoTracking()
-                 .ToListAsync();
+                 .AsQueryable();
+            if (dto.orderStartDate != null&& dto.orderEndDate != null)
+                query.Where(i=>i.CreatedDate >= dto.orderStartDate && i.CreatedDate <= dto.orderEndDate).AsQueryable();
+            if (dto.shippingStartDate != null && dto.shippingEndDate != null)
+                query.Where(i => i.CreatedDate >= dto.shippingStartDate && i.CreatedDate <= dto.shippingEndDate).AsQueryable();
+            var data=await query.ToListAsync();
             var mapped = _mapper.Map<List<OrderDTO>>(data);
-            return new Response<List<OrderDTO>>(ResponseType.Success, mapped);
+
+
+
+            ListingDTO<OrderDTO> filterDto = new ListingDTO<OrderDTO>()
+            {
+                Count = data.Count,
+                List = mapped.Skip((dto.page - 1) * dto.quantity).Take(dto.quantity).ToList(),
+            };
+
+            return new Response<ListingDTO<OrderDTO>>(ResponseType.Success, filterDto);
         }
     }
 }

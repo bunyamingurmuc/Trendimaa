@@ -20,6 +20,8 @@ namespace Trendeimaa.Entities
             CreditCards =new List<CreditCard> ();
             UserKeys =new List<UserKey> ();
             Notifications = new List<Notification> ();
+            AlarmItems = new List<AlarmItem> ();
+
         }
 
         public string Name { get; set; }
@@ -27,6 +29,8 @@ namespace Trendeimaa.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string PhoneNumber{ get; set; }
+        public bool EmailNotifications{ get; set; }
+        public bool SmsNotifications{ get; set; }
         public Language? Language { get; set; }
         public Currency? Currency{ get; set; }
         public string? UserIdentity { get; set; }
@@ -43,6 +47,7 @@ namespace Trendeimaa.Entities
         public List<CreditCard> CreditCards{ get; set; }
         public List<UserKey> UserKeys { get; set; }
         public List<Notification> Notifications { get; set; }
+        public List<AlarmItem> AlarmItems{ get; set; }
 
     }
 }

@@ -71,6 +71,14 @@ namespace Trendimaa.API.Controllers
 
             var response = await _service.GetProductCommentsWithCount(productId,page,quantity);
             return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetNonCommentedProducts(int userId)
+        {
+
+            var response = await _service.GetNonCommentedProducts(userId);
+            return this.ResponseStatusWithData(response);
         }
     }
 }

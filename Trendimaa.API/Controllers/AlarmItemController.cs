@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trendeimaa.Entities;
 using Trendimaa.API.Extension;
+using Trendimaa.BLL.Abstract;
 using Trendimaa.BLL.Interface;
-using Trendimaa.Common.Enum;
-using Trendimaa.DTO.Order;
 
 namespace Trendimaa.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class AlarmItemController : ControllerBase
     {
-        public readonly IOrderService _service;
+        public readonly AlarmItemService _service;
 
-        public OrderController(IOrderService service)
+        public AlarmItemController(AlarmItemService service)
         {
             _service = service;
         }
@@ -36,16 +35,16 @@ namespace Trendimaa.API.Controllers
 
         [HttpPost]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> CreateOrder(Order order, int? couponOfferId)
+        public async Task<ActionResult> CreateAsy(AlarmItem entity)
         {
-            var response = await _service.CreateOrder(order,couponOfferId);
+            var response = await _service.CreateAsync(entity);
             return this.ResponseStatusWithData(response);
 
         }
 
         [HttpPut]
         [Route("/[controller]/[action]")]
-        public async Task<ActionResult> UpdateAsy(Order entity)
+        public async Task<ActionResult> UpdateAsy(AlarmItem entity)
         {
             var response = await _service.UpdateAsync(entity);
             return this.ResponseStatusWithData(response);
@@ -57,22 +56,6 @@ namespace Trendimaa.API.Controllers
         {
 
             var response = await _service.RemoveAsync(id);
-            return this.ResponseStatusWithData(response);
-        } 
-        [HttpGet]
-        [Route("/[controller]/[action]")]
-        public async Task<ActionResult> GetSellerOrders(SellerOrdersFilterDTO dto)
-        {
-
-            var response = await _service.GetSellerOrders(dto);
-            return this.ResponseStatusWithData(response);
-        } 
-        [HttpGet]
-        [Route("/[controller]/[action]")]
-        public async Task<ActionResult> GetUserOrders(int userId)
-        {
-
-            var response = await _service.GetUserOrders(userId);
             return this.ResponseStatusWithData(response);
         }
     }

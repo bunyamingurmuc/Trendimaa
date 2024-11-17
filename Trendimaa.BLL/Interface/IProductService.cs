@@ -30,6 +30,7 @@ namespace Trendimaa.BLL.Interface
         public Task<IResponse<List<SearchProductDTO>>> GetSearchProductList(string word);
         public Task<IResponse<List<SearchProductDTO>>> GetSearchProductResult(string word, int? catId, int? subCatId, int? subsubCatId);
         public Task<IResponse<List<BasicProductCardDTO>>> ChangeSearchProductResult(ChangeSearchListDTO dto);
+        public Task<IResponse<List<SearchProductDTO>>> GetSearchProductVarietiesResult(SearchParamtersDTO dto,string word,int count,int page);
 
         public Task<IResponse<CSellerProductsDto>> GetSellerProductListsWithCount(int sellerId, int page, int quantity, string? word, int? catId, int? subCatId, int? subSubCatId);
         public Task<IResponse<ProductDetailDTO>> GetProductDetail(int productId);

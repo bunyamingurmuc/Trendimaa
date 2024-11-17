@@ -10,5 +10,6 @@ namespace Trendimaa.BLL.Interface
         Task<IResponse<List<QuestionDTO>>> GetSellerQuestions(int? sellerId);
         Task<IResponse<List<QuestionDTO>>> GetSellerNonAnsweredQuestions(int? sellerId);
         Task<IResponse<List<QuestionDTO>>> GetSellerAnsweredQuestions(int? sellerId);
+    
     }
 }

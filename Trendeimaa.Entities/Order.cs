@@ -23,7 +23,8 @@ namespace Trendeimaa.Entities
         public int? Discount { get; set; }
         public double? CouponPrice { get; set; }
         public double? TotalPrice { get; set; }
-        public DateTime? EstimatedDeliveryTime { get; set; } = DateTime.Now.AddDays(14);
+        public DateTime? EstimatedDeliveryTime { get; set; } = DateTime.Now.AddDays(2);
+        public DateTime? EstimatedShippingTime { get; set; } = DateTime.Now.AddDays(2);
         public OrderStatus OrderStatus { get; set; } = OrderStatus.GettingReady;
         //public OrderCancelReason? OrderCancelReason { get; set; }
         public DateTime? CompletionTime { get; set; }

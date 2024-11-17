@@ -16,6 +16,7 @@ namespace Trendeimaa.Entities
             SearchRelateds = new List<SearchRelated>();
             OrderItems = new List<OrderItem>();
             Questions = new List<Question>();
+            AlarmItems = new List<AlarmItem>();
 
         }
         public string Name { get; set; }
@@ -25,6 +26,7 @@ namespace Trendeimaa.Entities
 
         public string Detail { get; set; }
         public double StockPrice { get; set; }
+        public string GroupCode { get; set; }
         public int? Discount { get; set; } = 0;
         public double? CashbackAmount { get; set; }= 0;
         public double? FreeShippingLimitPrice { get; set; } = 0;
@@ -32,6 +34,7 @@ namespace Trendeimaa.Entities
         public string Description { get; set; }
         public double Rate { get; set; }
         public bool? IsHomeProduct { get; set; } = false;
+        public bool? IsStock { get; set; } = true;
         public bool? IsStarProduct { get; set; }= false;
         public int? NumberOfClicks { get; set; }
 
@@ -58,6 +61,7 @@ namespace Trendeimaa.Entities
         public List<SearchRelated> SearchRelateds { get; set; }
         public List<OrderItem> OrderItems{ get; set; }
         public List<Question> Questions{ get; set; }
+        public List<AlarmItem> AlarmItems{ get; set; }
 
     }
 }

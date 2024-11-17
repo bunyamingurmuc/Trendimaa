@@ -18,8 +18,8 @@ namespace Trendimaa.BLL.Interface
         Task<IResponse> up();
         Task<IResponse<ListingDTO<SellerCardDTO>>> GetSellers(int quantity,int page, string? word);
         Task<IResponse<Seller>> GetSellerInfo(int sellerId);
-        Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId);
-        Task<IResponse<ListingDTO<Coupon>>> GetSellerCoupons(int sellerId);
-        Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId);
+        Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId, int quantity, int page, string word, bool isStock);
+        Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId, int quantity, int page,string word);
+        Task<IResponse<SellerMainPageDto>> GetSellerMainPageInfo(int sellerId);
     }
 }

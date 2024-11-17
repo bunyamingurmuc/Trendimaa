@@ -1,6 +1,7 @@
 ﻿using Trendeimaa.Entities;
 using Trendimaa.Common;
 using Trendimaa.Common.Enum;
+using Trendimaa.DTO.Listing;
 using Trendimaa.DTO.Order;
 
 namespace Trendimaa.BLL.Interface
@@ -9,7 +10,8 @@ namespace Trendimaa.BLL.Interface
     {
         Task<IResponse<Order>> CreateOrder(Order order, int? couponOfferId);
         Task<IResponse<List<OrderDTO>>> GetUserOrders(int userId);
-        Task<IResponse<List<OrderDTO>>> GetSellerOrders(int sellerId, OrderStatus orderStatus);
+        Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(SellerOrdersFilterDTO dto);
+
 
     }
 }

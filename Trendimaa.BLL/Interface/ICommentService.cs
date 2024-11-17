@@ -2,6 +2,7 @@
 using Trendimaa.Common;
 using Trendimaa.DTO;
 using Trendimaa.DTO.Listing;
+using Trendimaa.DTO.Product;
 
 namespace Trendimaa.BLL.Interface
 {
@@ -9,5 +10,6 @@ namespace Trendimaa.BLL.Interface
     {
         Task<IResponse<ListingDTO<CommentDTO>>> GetProductCommentsWithCount(int productId, int page, int quantity);
         Task<IResponse<ListingDTO<CommentDTO>>> GetSellerCommentsWithCount(int sellerId, int page, int quantity);
+        Task<IResponse<List<BasicProductCardDTO>>> GetNonCommentedProducts(int userId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Trendeimaa.Entities;
 using Trendimaa.Common;
 using Trendimaa.DTO;
+using Trendimaa.DTO.Product;
 
 namespace Trendimaa.BLL.Interface
 {
@@ -8,5 +9,8 @@ namespace Trendimaa.BLL.Interface
     {
         Task<IResponse<List<Variety>>> GetProductVarities(int productId);
         Task<IResponse<List<BasicVarietyDTO>>> GetSellerVarieties(int? subCategoryid, int? subSubCategoryid);
+        Task<IResponse<List<Variety>>> GetVarietiesForSearch(int? subcatid, int? subsubcatid);
+       
+
     }
 }

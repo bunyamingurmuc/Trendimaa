@@ -8,6 +8,7 @@ using Trendimaa.DAL.Context;
 using Trendimaa.DAL.UnitOfWork;
 using Trendimaa.DTO;
 using Trendimaa.DTO.Listing;
+using Trendimaa.DTO.Product;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -24,6 +25,19 @@ namespace Trendimaa.BLL.Abstract
             _validator = validator;
             _uow = uow;
         }
+
+        public async Task<IResponse<List<BasicProductCardDTO>>> GetNonCommentedProducts(int userId)
+        {
+            var products = await _context.Orders
+                .Where(i => i.AppUserId == userId)                    // Kullanıcının siparişlerini filtrele
+                .SelectMany(i => i.OrderItems)                        // Her siparişteki ürünleri al
+                .Select(i => i.Product)                               // Ürünleri seç
+                .Where(i => !i.Comments.Any(c => c.AppUserId == userId)) // Kullanıcı tarafından yorum yapılmamış ürünleri seç
+                .ToListAsync();
+           var mapped=_mapper.Map<List<BasicProductCardDTO>>(products);
+            return new Response<List<BasicProductCardDTO>>(ResponseType.Success,mapped);
+        }
+
         public async Task<IResponse<ListingDTO<CommentDTO>>> GetProductCommentsWithCount(int productId, int page, int quantity)
         {
             var data = await _context.Comments.Where(i => i.Product.SellerId == productId).Include(i => i.Images).AsNoTracking().ToListAsync();

@@ -37,7 +37,8 @@ namespace Trendimaa.DTO.Product
         public List<Variety> Varieties { get; set; }
         public List<Comment> Comments { get; set; }
         public List<QuestionDTO> Questions{ get; set; }
-       
+        public List<VarietiesPriceDto>? VarietiesPrices{ get; set; }
+        
     
     }
 }

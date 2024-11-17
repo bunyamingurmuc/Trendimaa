@@ -39,7 +39,6 @@ namespace Trendimaa.API.Controllers
         {
             var response = await _service.SignUp(entity);
             return this.ResponseStatusWithData(response);
-
         }
         [HttpPost]
         [Route("/[controller]/[action]")]
@@ -74,12 +73,45 @@ namespace Trendimaa.API.Controllers
             var response = await _service.up();
             return this.ResponseStatusWithData(response);
         }
-        [HttpPost]
+
+        [HttpGet]
         [Route("/[controller]/[action]")]
         public async Task<ActionResult> GetSellers(int quantity, int page, string? word)
         {
 
             var response = await _service.GetSellers(quantity,page,word);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerInfo(int sellerId)
+        {
+
+            var response = await _service.GetSellerInfo(sellerId);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerProducts(int sellerId, int quantity, int page, string? word, bool isStock)
+        {
+
+            var response = await _service.GetSellerProducts(sellerId,quantity,page,word,isStock);
+            return this.ResponseStatusWithData(response);
+        }
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerOrders(int sellerId, int quantity, int page, string? word)
+        {
+
+            var response = await _service.GetSellerOrders(sellerId, quantity,page,word);
+            return this.ResponseStatusWithData(response);
+        } 
+        [HttpGet]
+        [Route("/[controller]/[action]")]
+        public async Task<ActionResult> GetSellerMainPageInfo(int sellerId)
+        {
+
+            var response = await _service.GetSellerMainPageInfo(sellerId);
             return this.ResponseStatusWithData(response);
         }
     }

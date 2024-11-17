@@ -16,6 +16,7 @@ using Trendimaa.DTO.Listing;
 using Trendimaa.DTO.Order;
 using Trendimaa.DTO.Product;
 using Trendimaa.DTO.Seller;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Trendimaa.BLL.Abstract
 {
@@ -77,39 +78,39 @@ namespace Trendimaa.BLL.Abstract
 
         public async Task<IResponse<SellerMainHomeDataDTO>> GetSellerMainHomeData(int sellerId)
         {
-           var seller=await _context.Sellers.Where(i=>i.Id== sellerId)
-                .Include(i=>i.Orders)
-                .FirstOrDefaultAsync();
-            var outofStockCount=await _context.Products.Where(i=>i.SellerId==sellerId&&i.StockPiece==0).CountAsync();
-            var pendingReturns = seller.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Returned).Count();
-            var delayedOrders = seller.Orders.Where(i=>i.EstimatedDeliveryTime>=DateTime.Now&&i.OrderStatus==Common.Enum.OrderStatus.OnTheRoad).Count();
-            var pendingOrders = seller.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Paid).Count();
-            var dailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i=>i.TotalPrice);
-            var MountlySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i=>i.TotalPrice);
-            var PreviousdailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.AddDays(-1).Day).Sum(i=>i.TotalPrice);
-            var PreviousSalesAmount = seller.Orders.Where(i => i.CreatedDate.Month == DateTime.Now.Month).Sum(i=>i.TotalPrice);
-            return new Response<SellerMainHomeDataDTO>(ResponseType.Success ,new SellerMainHomeDataDTO());
+            var seller = await _context.Sellers.Where(i => i.Id == sellerId)
+                 .Include(i => i.Orders)
+                 .FirstOrDefaultAsync();
+            var outofStockCount = await _context.Products.Where(i => i.SellerId == sellerId && i.StockPiece == 0).CountAsync();
+            var pendingReturns = seller.Orders.Where(i => i.OrderStatus == Common.Enum.OrderStatus.Returned).Count();
+            var delayedOrders = seller.Orders.Where(i => i.EstimatedDeliveryTime >= DateTime.Now && i.OrderStatus == Common.Enum.OrderStatus.OnTheRoad).Count();
+            var pendingOrders = seller.Orders.Where(i => i.OrderStatus == Common.Enum.OrderStatus.Paid).Count();
+            var dailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i => i.TotalPrice);
+            var MountlySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.Day).Sum(i => i.TotalPrice);
+            var PreviousdailySalesAmount = seller.Orders.Where(i => i.CreatedDate.Day == DateTime.Now.AddDays(-1).Day).Sum(i => i.TotalPrice);
+            var PreviousSalesAmount = seller.Orders.Where(i => i.CreatedDate.Month == DateTime.Now.Month).Sum(i => i.TotalPrice);
+            return new Response<SellerMainHomeDataDTO>(ResponseType.Success, new SellerMainHomeDataDTO());
 
 
 
-        //         public int OutofStockCount { get; set; }
-        //public int PendingReturns { get; set; }
-        //public int DelayedOrders { get; set; }
-        //public int PendingOrders { get; set; }
-        //public double DailySalesAmount { get; set; }
-        //public double WeeklySalesAmount { get; set; }
-        //public double MountlySalesAmount { get; set; }
-        //public double RateWeeklySalesAmount { get; set; }
-        //public double RateMountlySalesAmount { get; set; }
-    }
+            //         public int OutofStockCount { get; set; }
+            //public int PendingReturns { get; set; }
+            //public int DelayedOrders { get; set; }
+            //public int PendingOrders { get; set; }
+            //public double DailySalesAmount { get; set; }
+            //public double WeeklySalesAmount { get; set; }
+            //public double MountlySalesAmount { get; set; }
+            //public double RateWeeklySalesAmount { get; set; }
+            //public double RateMountlySalesAmount { get; set; }
+        }
 
-        public async Task<IResponse<ListingDTO<SellerCardDTO>>> GetSellers(int quantity, int page,string? word)
+        public async Task<IResponse<ListingDTO<SellerCardDTO>>> GetSellers(int quantity, int page, string? word)
         {
             var data = await _context.Sellers
-                .Include(i=>i.Image)
-                .OrderBy(i=>i.CreatedDate)
+                .Include(i => i.Image)
+                .OrderBy(i => i.CreatedDate)
                 .ToListAsync();
-          
+
             if (word != null && word.Length >= 2)
             {
                 word = word.ToLower().Trim();
@@ -118,37 +119,151 @@ namespace Trendimaa.BLL.Abstract
                .OrderByDescending(i => i.CreatedDate)
                .ToList();
             }
-            var mapped=_mapper.Map<List<SellerCardDTO>>(data);
+            var mapped = _mapper.Map<List<SellerCardDTO>>(data);
             ListingDTO<SellerCardDTO> dto = new ListingDTO<SellerCardDTO>()
             {
                 Count = mapped.Count,
                 List = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
             };
-            return new Response<ListingDTO<SellerCardDTO>>(ResponseType.Success,dto);
+            return new Response<ListingDTO<SellerCardDTO>>(ResponseType.Success, dto);
 
         }
 
         public async Task<IResponse<Seller>> GetSellerInfo(int sellerId)
         {
-            var seller=await _context.Sellers.Where(i=>i.Id== sellerId)
-                .Include(i=>i.Image)
+            var seller = await _context.Sellers.Where(i => i.Id == sellerId)
+                .Include(i => i.Image)
                 .FirstOrDefaultAsync();
-           return new Response<Seller>(ResponseType.Success,seller);
+            return new Response<Seller>(ResponseType.Success, seller);
         }
 
-        public Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId,int count,int page)
+        public async Task<IResponse<ListingDTO<BasicProductCardDTO>>> GetSellerProducts(int sellerId, int quantity, int page, string? word, bool isStock)
         {
-            var sellerProducts= _context.
+            var data = await _context.Products.Where(i => i.SellerId == sellerId && i.IsStock == isStock)
+                .Include(i => i.Images)
+                .ToListAsync();
+
+            var Count = 0;
+            if (word != null && word.Length >= 3)
+            {
+                word = word.ToLower().Trim();
+                data = data
+               .Where(i => i.Name.ToLower().Contains(word) || i.Description.ToLower().Contains(word))
+               .OrderByDescending(i => i.CreatedDate)
+               .ToList();
+            }
+            var mapped = _mapper.Map<List<BasicProductCardDTO>>(data);
+            ListingDTO<BasicProductCardDTO> dto = new ListingDTO<BasicProductCardDTO>()
+            {
+                Count = Count,
+                List = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
+            };
+            return new Response<ListingDTO<BasicProductCardDTO>>(ResponseType.Success, dto);
+        }
+        public async Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId, int quantity, int page, string? word)
+        {
+            var data = await _context.Orders.Where(i => i.SellerId == sellerId)
+                .Include(i => i.OrderItems)
+                .AsNoTracking()
+                .ToListAsync();
+            var Count = 0;
+
+            if (word != null && word.Length >= 3)
+            {
+                word = word.ToLower().Trim();
+                data = data
+               .Where(i => i.Name.ToLower().Contains(word) || i.OrderNumber.ToLower().Contains(word))
+               .OrderByDescending(i => i.CreatedDate)
+               .ToList();
+            }
+            var mapped = _mapper.Map<List<OrderDTO>>(data);
+            ListingDTO<OrderDTO> dto = new ListingDTO<OrderDTO>()
+            {
+                Count = Count,
+                List = mapped.Skip((page - 1) * quantity).Take(quantity).ToList(),
+            };
+            return new Response<ListingDTO<OrderDTO>>(ResponseType.Success, dto);
         }
 
-        public Task<IResponse<ListingDTO<Coupon>>> GetSellerCoupons(int sellerId)
+        public async Task<IResponse<SellerMainPageDto>> GetSellerMainPageInfo(int sellerId)
         {
-            throw new NotImplementedException();
-        }
+            var totalQuestionCount = _context.Sellers
+                  .Where(i => i.Id == sellerId)
+                  .SelectMany(i => i.Products.Select(i => i.Questions)).Count();
 
-        public Task<IResponse<ListingDTO<OrderDTO>>> GetSellerOrders(int sellerId)
-        {
-            throw new NotImplementedException();
+            var nonAnsweredQuestionCount = _context.Sellers
+                  .Where(i => i.Id == sellerId)
+                  .SelectMany(i => i.Products)
+                  .SelectMany(p => p.Questions)
+                  .Count(q => q.AnswerId == null);
+            var totalProductCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Products)
+                .Count();
+            var totalOrderCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders)
+                .Count();
+             var delayedOrderCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders.Where(i=>i.EstimatedShippingTime>=DateTime.Now))
+                .Count();
+
+            var returnedOrderCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Returned))
+                .Count();
+
+            var sendedOrderCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders.Where(i => i.OrderStatus == Common.Enum.OrderStatus.OnTheRoad))
+                .Count();
+
+            var totalPaymentCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders.Sum(i=>i.TotalPrice))
+                .Count();
+
+            var willPaymentCount = _context.Sellers.
+                Where(i => i.Id == sellerId)
+                .Select(i => i.Orders.Where(i=>i.OrderStatus==Common.Enum.OrderStatus.Aproved).Sum(i => i.TotalPrice))
+                .Count();
+
+            var montlyOrderCount = _context.Sellers.
+               Where(i => i.Id == sellerId)
+               .Select(i => i.Orders.Where(i => i.CreatedDate<=DateTime.Now.AddDays(-30)))
+               .Count();
+
+             var montlyCanceledOrderCount = _context.Sellers.
+               Where(i => i.Id == sellerId)
+               .Select(i => i.Orders.Where(i => i.CreatedDate<=DateTime.Now.AddDays(-30)&&i.OrderStatus==Common.Enum.OrderStatus.Returned))
+               .Count();
+            
+            var settedAlarmProductCount =await _context.Sellers.
+               Where(i => i.Id == sellerId)
+               .SelectMany(i=>i.Products)
+               .Select(i=>i.AlarmItems)
+               .CountAsync();
+            var dto = new SellerMainPageDto()
+            {
+                TotalOrderCount = totalOrderCount,
+                NonAnsweredQuestionCount = nonAnsweredQuestionCount,
+                TotalProductCount = totalProductCount,
+                TotalQuestionCount = totalQuestionCount,
+                DelayedOrderCount = delayedOrderCount,
+                ReturnedOrderCount = returnedOrderCount,
+                SendedOrderCount = sendedOrderCount,
+                TotalPaymentCount= totalPaymentCount,
+                WillPaymentCount = willPaymentCount,
+                MontlyOrderCount = montlyOrderCount,
+                MontlyCanceledOrderCount= montlyCanceledOrderCount,
+                SettedAlarmProductCount=settedAlarmProductCount
+            };
+            return new Response<SellerMainPageDto>(ResponseType.Success, dto);
+
         }
+    
+    
+    
     }
 }

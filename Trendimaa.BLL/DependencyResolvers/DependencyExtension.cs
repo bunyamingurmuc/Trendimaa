@@ -51,6 +51,8 @@ namespace Trendimaa.BLL.DependencyResolvers
             services.AddScoped<ICouponOfferService, CouponOfferService> ();
             services.AddScoped<IUserKeyService, UserKeyService> ();
             services.AddScoped<IOrderService, OrderService> ();
+            services.AddScoped<IAlarmItemService, AlarmItemService> ();
+
 
 
             services.AddSingleton<IValidator<AppUser>, AppUserValidator>();
@@ -80,6 +82,8 @@ namespace Trendimaa.BLL.DependencyResolvers
             services.AddSingleton<IValidator<CouponOffer>, CouponOfferValidator>();
             services.AddSingleton<IValidator<UserKey>, UserKeyValidator>();
             services.AddSingleton<IValidator<Order>, OrderValidator>();
+   
+            services.AddSingleton<IValidator<AlarmItem>, AlarmItemValidator>();
 
 
         }
